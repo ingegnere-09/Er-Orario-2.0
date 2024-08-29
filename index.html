@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>ER ORARIO 2.0</title>
 </head>
-    <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-M12YF4T24Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -59,7 +59,7 @@
 
     <hr class="riga2">
     <h2 class="tit">DISCLAIMER</h2>
-    <p>Utilizzando questo sito, accetti <a href="term.html">termini e condizioni</a>.</p>
+    <p id="dis">Utilizzando questo sito, accetti <a href="term.html">termini e condizioni</a>.</p>
     
     <hr class="riga2">
     <div class="fine">
@@ -68,5 +68,22 @@
         <hr>
     </div>
     <br>
+
+    <!-- Parte x i accetto -->
+    <div class="pol">
+        <h5 class="pol-sc1">Visitando questo sito accetti: <a href="#dis" class="pol-sc1">termini e condizioni</a></h5>
+        <h2 class="pol-sc2">OK</h2>
+    </div>
+
+    <script>
+        // JavaScript incluso direttamente nell'HTML
+        document.addEventListener('DOMContentLoaded', function() {
+            const polDiv = document.querySelector('.pol');
+
+            polDiv.addEventListener('click', function() {
+                polDiv.classList.add('hidden');
+            });
+        });
+    </script>
 </body>
 </html>
