@@ -63,3 +63,39 @@ a:hover{
     filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.9));
     transition: all 0.2s;
 }
+.pol {
+    position: fixed !important;
+    bottom: 10%;
+    width: 50%;
+    border-radius: 10px;
+    left: 25%;
+    text-align: center !important;
+    background-color: rgb(255, 255, 242);
+    cursor: pointer; /* Indica che è cliccabile */
+    opacity: 1; /* Opacità iniziale */
+    transition: opacity 0.5s ease; /* Transizione per l'effetto di opacità */
+}
+
+.pol.hidden {
+    opacity: 0;
+    pointer-events: none; /* Rende l'elemento non cliccabile */
+}
+
+.pol-sc1, .pol-sc2{
+    background-color: rgb(255, 255, 242);
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    color:#262626;
+}
+.pol-sc1{
+    margin-bottom: 0px;
+}
+.pol-sc2{
+    margin-top: 20px;
+}
+@media only screen and (max-width: 600px) {
+    .pol{
+        width: 75%;
+        left: 12.5%;
+    }
+  }
