@@ -1,0 +1,65 @@
+*{
+    background-color: #262626;
+    color: rgb(255, 255, 242);
+    font-family: 'Courier New', Courier, monospace;
+}
+body{
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+.title{
+    margin-bottom: 40px;
+    letter-spacing: 0.5px;
+}
+.title2{
+    letter-spacing: 1px;
+}
+.tit{
+    letter-spacing: 0.25px;
+}
+.giorno{
+    margin-top: 20px;
+    font-size: 10px;
+    padding: 0px;
+}
+.riga1{
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+.riga2{
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+.inid{
+    text-align: center;
+}
+.mt{
+    margin-left: 0;
+    padding-left: 0;
+    list-style-type: none;
+    font-size: 20px;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+i{
+    transition: all 0.35s;
+}
+i:hover{
+    transform: scale(1.75);
+    transition: all 0.2s;
+}
+a{
+    background-color:#26262600;
+    transition: all 0.2s;
+}
+i{
+    background-color: #26262600;
+}
+a:hover{
+    filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.9));
+    transition: all 0.2s;
+}
