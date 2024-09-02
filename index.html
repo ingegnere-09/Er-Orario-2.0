@@ -36,9 +36,9 @@
                 const nomeGiorno = giornoSettimana[prossimoGiorno];
 
                 if (nomeGiorno === "sabato") {
-                    document.getElementById('materie').innerHTML = "<p>Weekend in arrivo! Smetti di pensare allo zaino e concediti un po' di relax; il resto può aspettare.</p>";
+                    document.getElementById('materie').innerHTML = "<h3><b>Weekend in arrivo! Smetti di pensare allo zaino e concediti un po' di relax; il resto può aspettare.</b></h3>";
                 } else if (nomeGiorno === "domenica") {
-                    document.getElementById('materie').innerHTML = "<p>Sabato! Approfitta di questa giornata per ricaricare le energie e lascia lo zaino in pace; il relax è la tua priorità oggi.</p>";
+                    document.getElementById('materie').innerHTML = "<h3><b>Sabato! Approfitta di questa giornata per ricaricare le energie e lascia lo zaino in pace; il relax è la tua priorità oggi.</b></h3>";
                 } else if (giorni.includes(nomeGiorno)) {
                     const materie = data[nomeGiorno];
                     document.getElementById('materie').innerHTML = `<ul>${materie.map(m => `<li class="mt"><b>${m}</b></li>`).join('')}</ul>`;
