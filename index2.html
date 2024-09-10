@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>ER ORARIO 2.0</title>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-M12YF4T24Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-M12YF4T24Z');
+</script>
+<body>
+    <h1 class="title"><a class="title" href="index.html">ER ORARIO 2.0</a></h1>
+    <div id="materie"></div>
+    <script>
+        fetch('materie.json')
+            .then(response => response.json())
+            .then(data => {
+                const giorni = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì"];
+                const oggi = new Date();
+                const giorno = oggi.getDay(); // 0: domenica, 1: lunedì, ..., 6: sabato
+                let prossimoGiorno = (giorno + 1) % 7; // giorno successivo
+
+                // Map dei giorni
+                const giornoSettimana = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
+                const nomeGiorno = giornoSettimana[prossimoGiorno];
+
+                if (nomeGiorno === "sabato") {
+                    document.getElementById('materie').innerHTML = "<h3><b>Weekend in arrivo! Smetti di pensare allo zaino e concediti un po' di relax; il resto può aspettare.</b></h3>";
+                } else if (nomeGiorno === "domenica") {
+                    document.getElementById('materie').innerHTML = "<h3><b>Sabato! Approfitta di questa giornata per ricaricare le energie e lascia lo zaino in pace; il relax è la tua priorità oggi.</b></h3>";
+                } else if (giorni.includes(nomeGiorno)) {
+                    const materie = data[nomeGiorno];
+                    document.getElementById('materie').innerHTML = `<ul>${materie.map(m => `<li class="mt"><b>${m}</b></li>`).join('')}</ul>`;
+                }
+            });
+    </script>
+
+    <p class="giorno">Queste sono le materie per il giorno successivo</p>
+    <hr class="riga1">
+
+    <h2 class="tit">LA STORIA</h2>
+    <p class="storia">La storia del progetto orario inizia il primo novembre 2023, quando, in un momento di riflessione e senza sapere esattamente cosa fare, decisi di creare un orario personalizzabile e intuitivo. Grazie al sostegno dei miei compagni di classe, che hanno iniziato a utilizzare la prima versione e a fornire feedback, il progetto ha preso forma e si è evoluto. Ho dedicato innumerevoli ore davanti al computer, risolvendo bug e cercando soluzioni ottimali. Ogni aggiornamento ha migliorato la funzionalità e l’usabilità del sito, introducendo anche piccoli easter egg per rendere l’esperienza più divertente. Con l’inizio del nuovo anno scolastico 2024/25, sono entusiasta di presentare la nuova versione, pronta a supportare gli studenti nella gestione del loro tempo. Il progetto, che riflette il mio impegno e la mia passione, continuerà a crescere e a migliorare grazie alla fiducia e al supporto dei miei compagni di classe.</p>
+
+    <hr class="riga2">
+    <h2>NOVITÀ 2.0</h2>
+    
+    <p>Novità della versione 2.0: La prima versione di questo orario non era stata progettata per diventare ciò che è diventata. Con il tempo, il disordine creato ha reso necessario ripensare completamente il progetto. Ho deciso di creare un nuovo sito dove ordine, chiarezza e semplicità sono le parole chiave. Questa nuova versione è stata progettata con l'obiettivo di offrire un'esperienza più organizzata e intuitiva per tutti gli utenti. Inoltre, grazie a questo aggiornamento, non sarà più necessario cancellare la cache del sito per applicare le modifiche; basterà semplicemente ricaricare la pagina. Questo renderà gli aggiornamenti molto più facili e veloci.</p>
+
+    <hr class="riga2">
+    <h2 class="tit">DISCLAIMER</h2>
+    <p id="dis">Utilizzando questo sito, accetti <a href="term.html">termini e condizioni</a>.</p>
+    
+    <hr class="riga2">
+    <div class="fine">
+        <h4 class="mini-img">Social: <a href="https://github.com/ingegnere-09" target="_blank"><i class="fab fa-github"></i></a> | <a href="https://www.instagram.com/ingegnere_09/" target="_blank"><i class="fab fa-instagram"></i></a> | <a href="https://www.threads.net/@ingegnere_09" target="_blank"><i class="fab fa-threads"></i></a> | <a href="https://discord.gg/6F8X6f7PXc" target="_blank"><i class="fab fa-discord"></i></a></h4>
+        <h4 class="sc-fine">Email: <a href="mailto:berrettagregorio@gmail.com">berrettagregorio@gmail.com</a></h4>
+        <hr>
+    </div>
+    <br>
+
+    <!-- Parte x i accetto -->
+    <div class="pol">
+        <h5 class="pol-sc1">Visitando questo sito accetti: <a href="#dis" class="pol-sc1">termini e condizioni</a></h5>
+        <h2 class="pol-sc2">OK</h2>
+    </div>
+
+    <script>
+        // JavaScript incluso direttamente nell'HTML
+        document.addEventListener('DOMContentLoaded', function() {
+            const polDiv = document.querySelector('.pol');
+
+            polDiv.addEventListener('click', function() {
+                polDiv.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
