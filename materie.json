@@ -1,7 +1,7 @@
 {
     "lunedì": ["1ma lun", "---", "---", "---", "---"],
     "martedì": ["1ma mar", "---", "---", "---", "---"],
-    "mercoledì": ["1ma mer", "---", "---", "---", "---"],
+    "mercoledì": ["Chimica", "Scienze ", "Lettere", "Inglese ", "Matematica ", "---"],
     "giovedì": ["1ma gio", "---", "---", "---", "---"],
     "venerdì": ["1ma ven", "---", "---", "---", "---"]
   }
