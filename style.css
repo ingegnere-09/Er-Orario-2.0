@@ -10,6 +10,10 @@ body{
 .title{
     margin-bottom: 40px;
     letter-spacing: 0.5px;
+    text-decoration: none;
+}
+.title:hover{
+    filter: none;
 }
 .title2{
     letter-spacing: 1px;
