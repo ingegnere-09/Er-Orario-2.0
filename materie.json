@@ -1,7 +1,7 @@
 {
   "lunedì": ["Informatica", "Matematica", "Fisica", "Inglese", "lettere","Storia"],
   "martedì": ["2H Matematica", "2H Motoria", "Inglese", "Fisica"],
-  "mercoledì": ["Storia", "Disegno", "Matematica", "Informatica", "Chimica", ],
+  "mercoledì": ["Storia", "Disegno", "Matematica", "Informatica", "Chimica"],
   "giovedì": ["Biologia", "Chimica", "Religione", "2H lettere"],
   "venerdì": ["lettere", "Geografia", "Inglese", "Biologia", "Disegno"]
 }
