@@ -1,7 +1,7 @@
 {
-  "lunedì": ["1ma lun", "---", "---", "---", "---"],
-  "martedì": ["1ma mar", "---", "---", "---", "---"],
-  "mercoledì": ["---", "---", "---", "---", "---", "---"],
-  "giovedì": ["---", "---", "---", "---", "---"],
-  "venerdì": ["Fisica", "Grammatica", "Lettere", "Storia", "Inglese"]
+  "lunedì": ["Informatica", "Matematica", "Fisica", "Inglese", "lettere","Storia"],
+  "martedì": ["2H Matematica", "2H Motoria", "Inglese", "Fisica"],
+  "mercoledì": ["Storia", "Disegno", "Matematica", "Informatica", "Chimica", ],
+  "giovedì": ["Biologia", "Chimica", "Religione", "2H lettere"],
+  "venerdì": ["lettere", "Geografia", "Inglese", "Biologia", "Disegno"]
 }
