@@ -43,12 +43,34 @@
                     const materie = data[nomeGiorno];
                     document.getElementById('materie').innerHTML = `<ul>${materie.map(m => `<li class="mt"><b>${m}</b></li>`).join('')}</ul>`;
                 }
+
+                // Creazione della tabella per tutti i giorni
+                let tableContent = `<tr><th><i>Giorno</i></th><th><i>Materie</i></th></tr>`;
+                giorni.forEach(giorno => {
+                    if (data[giorno]) {
+                        tableContent += `<tr><td><b><i>${giorno.charAt(0).toUpperCase() + giorno.slice(1)}</i></b></td><td>${data[giorno].join(', ')}</td></tr>`;
+                    }
+                });
+                document.querySelector('table').innerHTML = tableContent;
             });
     </script>
 
     <p class="giorno">Queste sono le materie per il giorno successivo</p>
     <hr class="riga1">
 
+    <table border="1" cellpadding="10" cellspacing="0" style="width:100%; text-align:left;">
+        <thead>
+            <tr>
+                <th>Giorno</th>
+                <th>Materie</th>
+            </tr>
+        </thead>
+        <tbody id="orarioTable">
+            <!-- I dati verranno inseriti qui via JavaScript -->
+        </tbody>
+    </table>
+
+    <hr class="riga2">
     <h2 class="tit">LA STORIA</h2>
     <p class="storia">La storia del progetto orario inizia il primo novembre 2023, quando, in un momento di riflessione e senza sapere esattamente cosa fare, decisi di creare un orario personalizzabile e intuitivo. Grazie al sostegno dei miei compagni di classe, che hanno iniziato a utilizzare la prima versione e a fornire feedback, il progetto ha preso forma e si è evoluto. Ho dedicato innumerevoli ore davanti al computer, risolvendo bug e cercando soluzioni ottimali. Ogni aggiornamento ha migliorato la funzionalità e l’usabilità del sito, introducendo anche piccoli easter egg per rendere l’esperienza più divertente. Con l’inizio del nuovo anno scolastico 2024/25, sono entusiasta di presentare la nuova versione, pronta a supportare gli studenti nella gestione del loro tempo. Il progetto, che riflette il mio impegno e la mia passione, continuerà a crescere e a migliorare grazie alla fiducia e al supporto dei miei compagni di classe.</p>
 
