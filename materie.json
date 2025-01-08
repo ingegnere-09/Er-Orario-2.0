@@ -2,6 +2,6 @@
   "lunedì": ["Matematica", "Storia", "Biologia", "Inglese","2H Informatica"],
   "martedì": ["Epica", "Promessi sposi", "2H motoria", "Inglese","Fisica"],
   "mercoledì": ["Chimica [lab]", "Disegno", "Storia", "Fisica", "Inglese"],
-  "giovedì": ["Chimica", "Matematica", "Biologia", "GRAMMATICA (solo x questo giorno)", "Disegno"],
+  "giovedì": ["Chimica", "Matematica", "Biologia", "Storia" , "Disegno"],
   "venerdì": ["2H matematica","Promessi Sposi (int.)", "Religione", "Grammatica"]
 }
