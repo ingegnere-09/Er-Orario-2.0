@@ -78,6 +78,8 @@ a:hover{
     cursor: pointer; /* Indica che è cliccabile */
     opacity: 1; /* Opacità iniziale */
     transition: opacity 0.5s ease; /* Transizione per l'effetto di opacità */
+    z-index: 2;
+    box-shadow: 0 0 40px rgba(0, 229, 255, 0.9);
 }
 
 .pol.hidden {
@@ -85,7 +87,7 @@ a:hover{
     pointer-events: none; /* Rende l'elemento non cliccabile */
 }
 
-.pol-sc1, .pol-sc2{
+.pol-sc1, .pol-sc2, .pol-sc3{
     background-color: rgb(255, 255, 242);
     margin-left: 2.5%;
     margin-right: 2.5%;
@@ -93,13 +95,28 @@ a:hover{
 }
 .pol-sc1{
     margin-bottom: 0px;
+    
 }
 .pol-sc2{
-    margin-top: 20px;
+    margin-top: 0px;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+.pol-sc3{
+    margin-top: 5px;
 }
 .tab{
     letter-spacing: 3px;
-    text-align: center;
+    text-align: center; 
+}
+.no-li{
+    text-decoration: none;
+    color:#262626;
+}
+.sfocato{
+    filter:blur(7.5px);
+    z-index: 1;
+    transition: all 1s;
 }
 @media only screen and (max-width: 600px) {
     .pol{
