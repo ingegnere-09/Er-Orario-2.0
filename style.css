@@ -1,14 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
 *{
-    background-color: #181818;
-    color: rgb(255, 255, 242);
-    font-family: 'Courier New', Courier, monospace;
+    background-color: #000807;
+    color: #FBF9FF;
+    font-family: "Audiowide", sans-serif;
 }
 body{
     margin-left: 2.5%;
     margin-right: 2.5%;
+    margin-top: 100px; /* pari all’altezza del titolo */
+}
+.porta_tit{
+    background-color: #000807;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    border-bottom: 2px solid #FBF9FF;
 }
 .title{
-    margin-bottom: 40px;
+    padding-left: 1.25%;
+    background-color: #000807;
     letter-spacing: 0.5px;
     text-decoration: none;
 }
@@ -57,29 +68,28 @@ i:hover{
     transition: all 0.2s;
 }
 a{
-    background-color:#26262600;
+    background-color:#00080700;
     transition: all 0.2s;
 }
 i{
-    background-color: #26262600;
+    background-color: #00080700;
 }
 a:hover{
-    filter: drop-shadow(0px 0px 5px rgba(255, 255, 255, 0.9));
+    filter: drop-shadow(0px 0px 5px #B3B7EE);
     transition: all 0.2s;
 }
 .pol {
     position: fixed !important;
     bottom: 10%;
-    width: 50%;
-    border-radius: 10px;
-    left: 25%;
+    width: 100%;
+    left: 0%;
     text-align: center !important;
-    background-color: rgb(255, 255, 242);
+    background-color: #FBF9FF;
     cursor: pointer; /* Indica che è cliccabile */
     opacity: 1; /* Opacità iniziale */
     transition: opacity 0.5s ease; /* Transizione per l'effetto di opacità */
     z-index: 2;
-    box-shadow: 0 0 40px rgba(0, 229, 255, 0.9);
+    box-shadow: 0 0 40px #9395d3;
 }
 
 .pol.hidden {
@@ -88,7 +98,7 @@ a:hover{
 }
 
 .pol-sc1, .pol-sc2, .pol-sc3{
-    background-color: rgb(255, 255, 242);
+    background-color: #fbf9ff00;
     margin-left: 2.5%;
     margin-right: 2.5%;
     color:#262626;
@@ -112,15 +122,21 @@ a:hover{
 .no-li{
     text-decoration: none;
     color:#262626;
+    background-color: #fbf9ff00;
 }
 .sfocato{
     filter:blur(10px);
     z-index: 1;
     transition: all 1s;
 }
-@media only screen and (max-width: 600px) {
-    .pol{
-        width: 75%;
-        left: 12.5%;
-    }
-  }
+.noscroll {
+    overflow: hidden;
+    height: 100vh; /* Impedisce di scrollare anche se il contenuto è lungo */
+}
+.warn-sc{
+    margin-left: -1.25%;
+    margin-right: -1.25%;
+    background-color: #9395d3;
+    color: #000807;
+    margin-top: 0px;
+}
