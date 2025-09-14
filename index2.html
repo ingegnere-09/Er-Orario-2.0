@@ -6,6 +6,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" href="https://i.ibb.co/zJfV8HJ/icona-sito.png" type="image/x-icon">
@@ -21,7 +22,12 @@
   gtag('config', 'G-M12YF4T24Z');
 </script>
 <body>
-    <h1 class="title"><a class="title" href="index.html">ER ORARIO 2.0</a></h1>
+    <div class="porta_tit">
+        <h1 class="title"><a class="title" href="index.html">ER ORARIO 2.0</a></h1>
+    </div>
+    <div class="warn">
+        <h4 class="warn-sc">Attenzione: nei primi giorni l’orario potrebbe subire variazioni. Le informazioni presenti potrebbero non essere aggiornate.</h4>
+    </div>
     <div id="materie"></div>
     <script>
         fetch('materie.json')
@@ -72,13 +78,152 @@
     </table>
 
     <hr class="riga2">
+    <h2>PROSSIME FESTIVITÀ</h2>
+    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align:left;" id="festivitaTable">
+        <thead>
+            <tr>
+                <th>Festività</th>
+                <th>Data</th>
+                <th>Tempo rimanente</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Festività verranno inserite dinamicamente -->
+        </tbody>
+    </table>
+
+    <hr class="riga2">
+
+    <script>
+    (function() {
+        // Funzione per calcolare la data di Pasqua (algoritmo di Meeus)
+        function calcolaPasqua(anno) {
+            var a = anno % 19;
+            var b = Math.floor(anno / 100);
+            var c = anno % 100;
+            var d = Math.floor(b / 4);
+            var e = b % 4;
+            var f = Math.floor((b + 8) / 25);
+            var g = Math.floor((b - f + 1) / 3);
+            var h = (19 * a + b - d - g + 15) % 30;
+            var i = Math.floor(c / 4);
+            var k = c % 4;
+            var l = (32 + 2 * e + 2 * i - h - k) % 7;
+            var m = Math.floor((a + 11 * h + 22 * l) / 451);
+            var mese = Math.floor((h + l - 7 * m + 114) / 31); // 3=marzo, 4=aprile
+            var giorno = ((h + l - 7 * m + 114) % 31) + 1;
+            return new Date(anno, mese - 1, giorno, 0, 0, 0, 0);
+        }
+
+        // Funzione per formattare la data in formato gg/mm/yyyy
+        function formatDate(date) {
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        // Calcola il tempo rimanente in giorni, ore, minuti, secondi
+        function getRemainingTime(targetDate, now) {
+            let distanza = targetDate.getTime() - now.getTime();
+            if (distanza < 0) distanza = 0;
+            const secondi = Math.floor(distanza / 1000) % 60;
+            const minuti = Math.floor(distanza / (1000 * 60)) % 60;
+            const ore = Math.floor(distanza / (1000 * 60 * 60)) % 24;
+            const giorni = Math.floor(distanza / (1000 * 60 * 60 * 24));
+            return { giorni, ore, minuti, secondi };
+        }
+
+        // Festività principali italiane
+        function getFestivita(anno) {
+            var pasqua = calcolaPasqua(anno);
+            var lunediAngelo = new Date(pasqua); lunediAngelo.setDate(pasqua.getDate() + 1);
+            return [
+                { nome: "Capodanno", data: new Date(anno, 0, 1, 0, 0, 0, 0) },
+                { nome: "Epifania", data: new Date(anno, 0, 6, 0, 0, 0, 0) },
+                { nome: "Pasqua", data: pasqua },
+                { nome: "Lunedì dell’Angelo", data: lunediAngelo },
+                { nome: "Festa della Liberazione", data: new Date(anno, 3, 25, 0, 0, 0, 0) },
+                { nome: "Festa dei Lavoratori", data: new Date(anno, 4, 1, 0, 0, 0, 0) },
+                { nome: "Festa della Repubblica", data: new Date(anno, 5, 2, 0, 0, 0, 0) },
+                { nome: "Ferragosto", data: new Date(anno, 7, 15, 0, 0, 0, 0) },
+                { nome: "Tutti i santi", data: new Date(anno, 10, 1, 0, 0, 0, 0) },
+                { nome: "Immacolata", data: new Date(anno, 11, 8, 0, 0, 0, 0) },
+                { nome: "Natale", data: new Date(anno, 11, 25, 0, 0, 0, 0) },
+                { nome: "Santo Stefano", data: new Date(anno, 11, 26, 0, 0, 0, 0) }
+            ];
+        }
+
+        // Ottieni la prossima festività imminente
+        function getNextFestivity(festivitaList, now) {
+            for (let i = 0; i < festivitaList.length; i++) {
+                if (festivitaList[i].data.getTime() > now.getTime()) {
+                    return festivitaList[i];
+                }
+            }
+            return null;
+        }
+
+        function aggiornaTabellaFestivita() {
+            const nowOriginal = new Date();
+            // Per testare con una data fittizia, sostituire 'nowOriginal' con una nuova data, ad esempio:
+            // const nowOriginal = new Date(2025, 8, 15); // 15 settembre 2025
+
+            let anno = nowOriginal.getFullYear();
+            let festivita = getFestivita(anno);
+
+            // Se tutte le festività di quest'anno sono passate, prendi quelle dell'anno prossimo
+            if (festivita.every(f => f.data.getTime() <= nowOriginal.getTime())) {
+                anno++;
+                festivita = getFestivita(anno);
+            }
+
+            // Creiamo una nuova data "now" con ore, minuti, secondi e millisecondi azzerati per confronto
+            const now = new Date(nowOriginal.getFullYear(), nowOriginal.getMonth(), nowOriginal.getDate());
+
+            // Filtra solo quelle future o oggi
+            const festivitaFuture = festivita.filter(f => f.data.getTime() >= now.getTime());
+
+            // Ordina per data
+            festivitaFuture.sort((a,b) => a.data - b.data);
+
+            const nextFest = getNextFestivity(festivitaFuture, nowOriginal);
+
+            const tbody = document.querySelector('#festivitaTable tbody');
+            tbody.innerHTML = '';
+
+            festivitaFuture.forEach(f => {
+                const tr = document.createElement('tr');
+                if (nextFest && f.nome === nextFest.nome) {
+                    tr.style.backgroundColor = '#d0eaff'; // evidenziazione minimal azzurra
+                    tr.style.fontWeight = 'bold';
+                }
+                const tdNome = document.createElement('td');
+                tdNome.textContent = f.nome;
+                const tdData = document.createElement('td');
+                tdData.textContent = formatDate(f.data);
+                const tdTempo = document.createElement('td');
+                const remaining = getRemainingTime(f.data, nowOriginal);
+                tdTempo.textContent = `${remaining.giorni} gg, ${remaining.ore.toString().padStart(2,'0')}h, ${remaining.minuti.toString().padStart(2,'0')}m, ${remaining.secondi.toString().padStart(2,'0')}s`;
+                tr.appendChild(tdNome);
+                tr.appendChild(tdData);
+                tr.appendChild(tdTempo);
+                tbody.appendChild(tr);
+            });
+        }
+
+        aggiornaTabellaFestivita();
+        setInterval(aggiornaTabellaFestivita, 1000);
+    })();
+    </script>
+
     <h2 class="tit">LA STORIA</h2>
     <p class="storia">La storia del progetto orario inizia il primo novembre 2023, quando, in un momento di riflessione e senza sapere esattamente cosa fare, decisi di creare un orario personalizzabile e intuitivo. Grazie al sostegno dei miei compagni di classe, che hanno iniziato a utilizzare la prima versione e a fornire feedback, il progetto ha preso forma e si è evoluto. Ho dedicato innumerevoli ore davanti al computer, risolvendo bug e cercando soluzioni ottimali. Ogni aggiornamento ha migliorato la funzionalità e l’usabilità del sito, introducendo anche piccoli easter egg per rendere l’esperienza più divertente. Con l’inizio del nuovo anno scolastico 2024/25, sono entusiasta di presentare la nuova versione, pronta a supportare gli studenti nella gestione del loro tempo. Il progetto, che riflette il mio impegno e la mia passione, continuerà a crescere e a migliorare grazie alla fiducia e al supporto dei miei compagni di classe.</p>
 
     <hr class="riga2">
     <h2>NOVITÀ 2.0</h2>
     
-    <p>Novità della versione 2.0: La prima versione di questo orario non era stata progettata per diventare ciò che è diventata. Con il tempo, il disordine creato ha reso necessario ripensare completamente il progetto. Ho deciso di creare un nuovo sito dove ordine, chiarezza e semplicità sono le parole chiave. Questa nuova versione è stata progettata con l'obiettivo di offrire un'esperienza più organizzata e intuitiva per tutti gli utenti. Inoltre, grazie a questo aggiornamento, non sarà più necessario cancellare la cache del sito per applicare le modifiche; basterà semplicemente ricaricare la pagina. Questo renderà gli aggiornamenti molto più facili e veloci.</p>
+    <p>La versione 2.0 per il 2025/26 introduce un countdown interattivo per l’inizio delle lezioni e nuovi easter egg nascosti, migliorando l’aspetto e l’esperienza d’uso per gli studenti.</p>
 
     <hr class="riga2">
     <h2 class="tit">DISCLAIMER</h2>
@@ -106,5 +251,7 @@
             });
         });
     </script>
+    </script>
+         <a class="copyrighted-badge" title="Copyrighted.com Registered &amp; Protected" target="_blank" href="https://app.copyrighted.com/website/wMLXougaDKkQu4gd/"><img alt="Copyrighted.com Registered &amp; Protected" border="0" width="125" height="75" srcset="https://static.copyrighted.com/badges/125x75/06_2x.png 2x" src="https://static.copyrighted.com/badges/125x75/06.png"></a><script src="https://static.copyrighted.com/badges/helper.js"></script>
 </body>
 </html>
