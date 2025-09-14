@@ -20,7 +20,7 @@
 
   gtag('config', 'G-M12YF4T24Z');
 </script>
-<body>
+<body class="noscroll">
     <div class="pol">
         <h5 class="pol-sc1">Visitando questo sito accetti:</h5>
         <h5 class="pol-sc3"><a href="index2.html#dis" class="pol-sc1">termini e condizioni</a></h5>
@@ -28,7 +28,12 @@
     </div>
 
     <div class="sfocato">
-    <h1 class="title"><a class="title" href="index.html">ER ORARIO 2.0</a></h1>
+    <div class="porta_tit">
+        <h1 class="title"><a class="title" href="index.html">ER ORARIO 2.0</a></h1>
+    </div>
+    <div class="warn">
+        <h4 class="warn-sc">Attenzione: nei primi giorni l’orario potrebbe subire variazioni. Le informazioni presenti potrebbero non essere aggiornate.</h4>
+    </div>
     <div id="materie"></div>
     <script>
         fetch('materie.json')
@@ -99,7 +104,7 @@
         <hr>
     </div>
  
-    <h6>© 2024 er-orario-2-0.vercel.app. Tutti i diritti riservati. È vietata la riproduzione, anche parziale, senza autorizzazione.</h6>
+    <h6>© 2025 er-orario-2-0.vercel.app. Tutti i diritti riservati. È vietata la riproduzione, anche parziale, senza autorizzazione.</h6>
 
     <!-- Parte x i accetto -->
     
@@ -109,9 +114,10 @@
             const polDiv = document.querySelector('.pol');
 
             polDiv.addEventListener('click', function() {
-                window.location.href = "index2.html";
+                polDiv.classList.add('hidden');
             });
         });
+    </script>
     </script>
          <a class="copyrighted-badge" title="Copyrighted.com Registered &amp; Protected" target="_blank" href="https://app.copyrighted.com/website/wMLXougaDKkQu4gd/"><img alt="Copyrighted.com Registered &amp; Protected" border="0" width="125" height="75" srcset="https://static.copyrighted.com/badges/125x75/06_2x.png 2x" src="https://static.copyrighted.com/badges/125x75/06.png"></a><script src="https://static.copyrighted.com/badges/helper.js"></script>
     </div>
