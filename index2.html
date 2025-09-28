@@ -21,12 +21,13 @@
 
   gtag('config', 'G-M12YF4T24Z');
 </script>
+
 <body>
     <div class="porta_tit">
-        <h1 class="title"><a class="title" href="index.html">ER ORARIO 2.0</a></h1>
+        <h1 class="title"><a id="scrollTop" class="title" href="#">ER ORARIO 2.0</a></h1>
     </div>
     <div class="warn">
-        <h4 class="warn-sc">Attenzione: nei primi giorni l’orario potrebbe subire variazioni. Le informazioni presenti potrebbero non essere aggiornate.</h4>
+        <h3 class="warn-sc">Nel giorno 29/09/2025 si entrerà in seconda ora!</h3>
     </div>
     <div id="materie"></div>
     <script>
@@ -35,10 +36,9 @@
             .then(data => {
                 const giorni = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì"];
                 const oggi = new Date();
-                const giorno = oggi.getDay(); // 0: domenica, 1: lunedì, ..., 6: sabato
-                let prossimoGiorno = (giorno + 1) % 7; // giorno successivo
+                const giorno = oggi.getDay();
+                let prossimoGiorno = (giorno + 1) % 7;
 
-                // Map dei giorni
                 const giornoSettimana = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
                 const nomeGiorno = giornoSettimana[prossimoGiorno];
 
@@ -51,7 +51,6 @@
                     document.getElementById('materie').innerHTML = `<ul>${materie.map(m => `<li class="mt"><b>${m}</b></li>`).join('')}</ul>`;
                 }
 
-                // Creazione della tabella per tutti i giorni
                 let tableContent = `<tr><th><i>Giorno</i></th><th><i>Materie</i></th></tr>`;
                 giorni.forEach(giorno => {
                     if (data[giorno]) {
@@ -73,7 +72,6 @@
             </tr>
         </thead>
         <tbody id="orarioTable">
-            <!-- I dati verranno inseriti qui via JavaScript -->
         </tbody>
     </table>
 
@@ -88,7 +86,6 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Festività verranno inserite dinamicamente -->
         </tbody>
     </table>
 
@@ -96,7 +93,6 @@
 
     <script>
     (function() {
-        // Funzione per calcolare la data di Pasqua (algoritmo di Meeus)
         function calcolaPasqua(anno) {
             var a = anno % 19;
             var b = Math.floor(anno / 100);
@@ -110,12 +106,11 @@
             var k = c % 4;
             var l = (32 + 2 * e + 2 * i - h - k) % 7;
             var m = Math.floor((a + 11 * h + 22 * l) / 451);
-            var mese = Math.floor((h + l - 7 * m + 114) / 31); // 3=marzo, 4=aprile
+            var mese = Math.floor((h + l - 7 * m + 114) / 31);
             var giorno = ((h + l - 7 * m + 114) % 31) + 1;
             return new Date(anno, mese - 1, giorno, 0, 0, 0, 0);
         }
 
-        // Funzione per formattare la data in formato gg/mm/yyyy
         function formatDate(date) {
             const day = date.getDate().toString().padStart(2, '0');
             const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -123,7 +118,6 @@
             return `${day}/${month}/${year}`;
         }
 
-        // Calcola il tempo rimanente in giorni, ore, minuti, secondi
         function getRemainingTime(targetDate, now) {
             let distanza = targetDate.getTime() - now.getTime();
             if (distanza < 0) distanza = 0;
@@ -134,7 +128,6 @@
             return { giorni, ore, minuti, secondi };
         }
 
-        // Festività principali italiane
         function getFestivita(anno) {
             var pasqua = calcolaPasqua(anno);
             var lunediAngelo = new Date(pasqua); lunediAngelo.setDate(pasqua.getDate() + 1);
@@ -154,7 +147,6 @@
             ];
         }
 
-        // Ottieni la prossima festività imminente
         function getNextFestivity(festivitaList, now) {
             for (let i = 0; i < festivitaList.length; i++) {
                 if (festivitaList[i].data.getTime() > now.getTime()) {
@@ -166,25 +158,17 @@
 
         function aggiornaTabellaFestivita() {
             const nowOriginal = new Date();
-            // Per testare con una data fittizia, sostituire 'nowOriginal' con una nuova data, ad esempio:
-            // const nowOriginal = new Date(2025, 8, 15); // 15 settembre 2025
 
             let anno = nowOriginal.getFullYear();
             let festivita = getFestivita(anno);
 
-            // Se tutte le festività di quest'anno sono passate, prendi quelle dell'anno prossimo
             if (festivita.every(f => f.data.getTime() <= nowOriginal.getTime())) {
                 anno++;
                 festivita = getFestivita(anno);
             }
 
-            // Creiamo una nuova data "now" con ore, minuti, secondi e millisecondi azzerati per confronto
             const now = new Date(nowOriginal.getFullYear(), nowOriginal.getMonth(), nowOriginal.getDate());
-
-            // Filtra solo quelle future o oggi
             const festivitaFuture = festivita.filter(f => f.data.getTime() >= now.getTime());
-
-            // Ordina per data
             festivitaFuture.sort((a,b) => a.data - b.data);
 
             const nextFest = getNextFestivity(festivitaFuture, nowOriginal);
@@ -195,7 +179,7 @@
             festivitaFuture.forEach(f => {
                 const tr = document.createElement('tr');
                 if (nextFest && f.nome === nextFest.nome) {
-                    tr.style.backgroundColor = '#d0eaff'; // evidenziazione minimal azzurra
+                    tr.style.backgroundColor = '#d0eaff';
                     tr.style.fontWeight = 'bold';
                 }
                 const tdNome = document.createElement('td');
@@ -239,19 +223,29 @@
  
     <h6>© 2025 er-orario-2-0.vercel.app. Tutti i diritti riservati. È vietata la riproduzione, anche parziale, senza autorizzazione.</h6>
 
-    <!-- Parte x i accetto -->
-    
     <script>
-        // JavaScript incluso direttamente nell'HTML
         document.addEventListener('DOMContentLoaded', function() {
             const polDiv = document.querySelector('.pol');
+            if (polDiv) {
+                polDiv.addEventListener('click', function() {
+                    polDiv.classList.add('hidden');
+                });
+            }
 
-            polDiv.addEventListener('click', function() {
-                polDiv.classList.add('hidden');
-            });
+            // Scroll fluido su titolo
+            const titolo = document.getElementById('scrollTop');
+            if (titolo) {
+                titolo.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
         });
     </script>
-    </script>
-         <a class="copyrighted-badge" title="Copyrighted.com Registered &amp; Protected" target="_blank" href="https://app.copyrighted.com/website/wMLXougaDKkQu4gd/"><img alt="Copyrighted.com Registered &amp; Protected" border="0" width="125" height="75" srcset="https://static.copyrighted.com/badges/125x75/06_2x.png 2x" src="https://static.copyrighted.com/badges/125x75/06.png"></a><script src="https://static.copyrighted.com/badges/helper.js"></script>
+
+    <a class="copyrighted-badge" title="Copyrighted.com Registered &amp; Protected" target="_blank" href="https://app.copyrighted.com/website/wMLXougaDKkQu4gd/"><img alt="Copyrighted.com Registered &amp; Protected" border="0" width="125" height="75" srcset="https://static.copyrighted.com/badges/125x75/06_2x.png 2x" src="https://static.copyrighted.com/badges/125x75/06.png"></a><script src="https://static.copyrighted.com/badges/helper.js"></script>
 </body>
 </html>
