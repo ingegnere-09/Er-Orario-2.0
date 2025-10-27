@@ -122,12 +122,15 @@ a:hover{
 .no-li{
     text-decoration: none;
     color:#262626;
-    background-color: #fbf9ff00;
+    background-color: #ded2f500;
+    padding-left: 45%;
+    padding-right: 45%;
 }
 .sfocato{
     filter:blur(10px);
     z-index: 1;
     transition: all 1s;
+    margin-top: -100px;
 }
 .noscroll {
     overflow: hidden;
