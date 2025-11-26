@@ -141,3 +141,7 @@ a:hover{
     color: #000807;
     margin-top: 0px;
 }
+.copyrighted-badge:hover{
+    filter: none;
+    cursor: default;
+}
