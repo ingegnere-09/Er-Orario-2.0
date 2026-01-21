@@ -22,12 +22,34 @@
   gtag('config', 'G-M12YF4T24Z');
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const target = document.getElementById("scrollTop");
+    let clickCount = 0;
+    let lastClick = 0;
+
+    target.addEventListener("click", (e) => {
+        const now = Date.now();
+
+        // evita spam click troppo rapidi
+        if (now - lastClick < 50) return;
+        lastClick = now;
+
+        clickCount++;
+
+        if (clickCount === 10) {
+            window.location.href = "games/game1.html";
+        }
+    });
+});
+</script>
+
 <body>
     <div class="porta_tit">
         <h1 class="title"><a id="scrollTop" class="title" href="#">ER ORARIO 2.0</a></h1>
     </div>
     <div class="warn">
-        <h3 class="warn-sc">Mercoledì 14/01 portare STORIA e non dante!</h3>
+        <h3 class="warn-sc">Easter egg aggiunto, ora ti tocca trovarlo!</h3>
     </div>
     <div id="materie"></div>
     <script>
@@ -77,7 +99,7 @@
 
     <hr class="riga2">
     <h2>PROSSIME FESTIVITÀ</h2>
-    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align:left;" id="festivitaTable">
+    <table border="1" cellpadding="8" cellspacing="0" style="text-align:left;" id="festivitaTable">
         <thead>
             <tr>
                 <th>Festività</th>
