@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "username": "pippo",
+      "password": "baudo",
+      "clicks": 199.60000000000056,
+      "level": 7,
+      "clickPower": 1.5000000000000004,
+      "upgradeCost": 320
+    }
+  ]
+}
