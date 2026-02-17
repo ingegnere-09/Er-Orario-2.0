@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gioco</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="game">
+
+<h2 id="info"></h2>
+<h3 id="nextLevel"></h3>
+
+<div style="font-size:100px; cursor:pointer;" onclick="clickSchool()">🏫</div>
+<br><br>
+<button id="upgradeBtn" onclick="buyUpgrade()"></button>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-M12YF4T24Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-M12YF4T24Z');
+</script>
+
+<script>
+let user = JSON.parse(localStorage.getItem("user"));
+
+const info = document.getElementById("info");
+const nextLevel = document.getElementById("nextLevel");
+const upgradeBtn = document.getElementById("upgradeBtn");
+
+if (!user.clickPower) user.clickPower = 1;
+if (!user.upgradeCost) user.upgradeCost = 10;
+
+function getNeeded() {
+  return 10 * Math.pow(2, user.level - 1);
+}
+
+function updateUI() {
+  const needed = getNeeded();
+  const remaining = Math.max(0, Math.ceil(needed - user.clicks));
+  info.innerHTML = 
+  `Username: ${user.username}<br>` +
+  `Livello: ${user.level}<br>` +
+  `Click: ${user.clicks.toFixed(1)}<br>` +
+  `Power: ${user.clickPower.toFixed(1)}`;
+  nextLevel.innerText = `Ti mancano ${remaining} click al prossimo livello`;
+  upgradeBtn.innerText = `Upgrade (+0.1) - Costo: ${user.upgradeCost}`;
+}
+
+async function clickSchool() {
+  const res = await fetch("/click", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ username: user.username })
+  });
+  user = await res.json();
+  localStorage.setItem("user", JSON.stringify(user));
+  updateUI();
+}
+
+async function buyUpgrade() {
+  const res = await fetch("/upgrade", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ username: user.username })
+  });
+  user = await res.json();
+  localStorage.setItem("user", JSON.stringify(user));
+  updateUI();
+}
+
+updateUI();
+</script>
+
+<p><a href="/">←Back to home</a></p>
+
+</body>
+</html>

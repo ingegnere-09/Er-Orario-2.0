@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+*{
+    background-color: #000807;
+    color: #FBF9FF;
+    font-family: "Audiowide", sans-serif;
+    
+}
+
+.log{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.butt{
+    display: flex;
+    justify-content: center;
+}
+.btn1{
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.btn2{
+    background-color: #008CBA;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.input-field{
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+}
+
+.Classifica{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.back-link{
+    text-align: center;
+}
+.linea{
+    margin-top: 20px;
+    border: 0;
+    height: 1px;
+    background-color: #FBF9FF;
+    width: 80%;
+}
