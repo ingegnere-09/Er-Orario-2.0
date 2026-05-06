@@ -145,3 +145,36 @@ a:hover{
     filter: none;
     cursor: default;
 }
+
+.countdown-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.giorni-fine-scuola {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    border: 2px solid #938dd3;
+    border-radius: 12px;
+    min-width: 140px;
+}
+
+.giorni-fine-scuola .numero {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #938dd3;
+    line-height: 1;
+}
+
+.giorni-fine-scuola .etichetta {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 4px;
+}
+
+.giorni-fine-scuola.finita .numero {
+    font-size: 1.8rem;
+    color: #2ecc71;
+}
