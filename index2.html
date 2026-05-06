@@ -52,6 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
         <h3 class="warn-sc">Easter egg aggiunto, ora ti tocca trovarlo!</h3>
     </div>
     <div id="materie"></div>
+<div class="giorni-fine-scuola" id="fineScuolaBox" style="text-align:center; padding: 0.8rem 1.2rem; border: 2px solid #938dd3; border-radius: 12px; margin-top: 0.5rem; display: none;">
+    <div class="numero" id="fineScuolaNumero" style="font-size: 3.5rem; font-weight: bold; color: #938dd3; line-height: 1;"></div>
+    <div class="etichetta" id="fineScuolaEtichetta" style="font-size: 0.85rem; color: #666; margin-top: 4px;"></div>
+</div>
     <script>
         fetch('materie.json')
             .then(response => response.json())
@@ -82,6 +86,50 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.querySelector('table').innerHTML = tableContent;
             });
     </script>
+    <script>
+(function() {
+    function aggiornaConto() {
+        const ora = new Date();
+        const fineScuola = new Date(ora.getFullYear(), 5, 10, 13, 40, 0);
+
+        const box = document.getElementById('fineScuolaBox');
+        const numero = document.getElementById('fineScuolaNumero');
+        const etichetta = document.getElementById('fineScuolaEtichetta');
+
+        if (!box || !numero || !etichetta) return;
+
+        // Nascondi il box se è weekend (sabato/domenica mostrano messaggio diverso senza materie)
+        const oggi = new Date();
+        const prossimoGiorno = (oggi.getDay() + 1) % 7;
+        if (prossimoGiorno === 0 || prossimoGiorno === 6) {
+            box.style.display = 'none';
+            return;
+        }
+
+        box.style.display = 'block';
+
+        const diff = fineScuola.getTime() - ora.getTime();
+
+        if (diff <= 0) {
+            numero.style.fontSize = '1.6rem';
+            numero.style.color = '#2ecc71';
+            box.style.borderColor = '#2ecc71';
+            numero.textContent = '🎉 Scuola finita!';
+            etichetta.textContent = '';
+        } else {
+            const giorniRimasti = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            numero.style.fontSize = '3.5rem';
+            numero.style.color = '#938dd3';
+            box.style.borderColor = '#938dd3';
+            numero.textContent = giorniRimasti;
+            etichetta.textContent = giorniRimasti === 1 ? 'giorno alla fine della scuola' : 'giorni alla fine della scuola';
+        }
+    }
+
+    aggiornaConto();
+    setInterval(aggiornaConto, 1000);
+})();
+</script>
 
     <p class="giorno">Queste sono le materie per il giorno successivo</p>
     <hr class="riga1">
