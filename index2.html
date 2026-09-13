@@ -48,13 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
     <div class="porta_tit">
         <h1 class="title"><a id="scrollTop" class="title" href="#">ER ORARIO 2.0</a></h1>
     </div>
-    <div class="warn">
-        <h3 class="warn-sc">Easter egg aggiunto, ora ti tocca trovarlo!</h3>
-    </div>
     <div id="materie"></div>
 <div class="giorni-fine-scuola" id="fineScuolaBox" style="text-align:center; padding: 0.8rem 1.2rem; border: 2px solid #938dd3; border-radius: 12px; margin-top: 0.5rem; display: none;">
-    <div class="numero" id="fineScuolaNumero" style="font-size: 3.5rem; font-weight: bold; color: #938dd3; line-height: 1;"></div>
-    <div class="etichetta" id="fineScuolaEtichetta" style="font-size: 0.85rem; color: #666; margin-top: 4px;"></div>
+    <div class="numero" id="fineScuolaNumero" style="font-size: 3.5rem; font-weight: bold; color: #938dd3; line-height: 1; background-color: #f5f5f500; padding: 10px; border-radius: 8px;"></div>
+    <div class="etichetta" id="fineScuolaEtichetta" style="font-size: 0.85rem; color: #666; margin-top: 4px; background-color: #f5f5f500;"></div>
 </div>
     <script>
         fetch('materie.json')
@@ -90,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 (function() {
     function aggiornaConto() {
         const ora = new Date();
-        const fineScuola = new Date(ora.getFullYear(), 5, 10, 13, 40, 0);
+        const fineScuola = new Date(2027, 5, 11, 13, 40, 0);
 
         const box = document.getElementById('fineScuolaBox');
         const numero = document.getElementById('fineScuolaNumero');
@@ -271,13 +268,12 @@ document.addEventListener("DOMContentLoaded", () => {
     })();
     </script>
 
-    <h2 class="tit">LA STORIA</h2>
-    <p class="storia">La storia del progetto orario inizia il primo novembre 2023, quando, in un momento di riflessione e senza sapere esattamente cosa fare, decisi di creare un orario personalizzabile e intuitivo. Grazie al sostegno dei miei compagni di classe, che hanno iniziato a utilizzare la prima versione e a fornire feedback, il progetto ha preso forma e si è evoluto. Ho dedicato innumerevoli ore davanti al computer, risolvendo bug e cercando soluzioni ottimali. Ogni aggiornamento ha migliorato la funzionalità e l’usabilità del sito, introducendo anche piccoli easter egg per rendere l’esperienza più divertente. Con l’inizio del nuovo anno scolastico 2024/25, sono entusiasta di presentare la nuova versione, pronta a supportare gli studenti nella gestione del loro tempo. Il progetto, che riflette il mio impegno e la mia passione, continuerà a crescere e a migliorare grazie alla fiducia e al supporto dei miei compagni di classe.</p>
-
-    <hr class="riga2">
-    <h2>NOVITÀ 2.0</h2>
-    
-    <p>La versione 2.0 per il 2025/26 introduce un countdown interattivo per l’inizio delle lezioni e nuovi easter egg nascosti, migliorando l’aspetto e l’esperienza d’uso per gli studenti.</p>
+    <h2 class="tit">LA STORIA & NOVITÀ</h2>
+<p class="storia">
+  La storia del progetto orario inizia il primo novembre 2023, quando decisi di creare uno strumento personalizzabile, semplice e intuitivo. Grazie al supporto costante dei miei compagni di classe e ai loro feedback, il sito si è evoluto costantemente: dalla prima versione fino alla 2.0 per l'anno 2025/26, che ha introdotto il countdown interattivo e nuovi easter egg.
+  <br><br>
+  Per questo nuovo anno scolastico 2026/27, il progetto si rinnova a partire da un importante restyle estetico, reso più moderno e pulito. Ma non finisce qui: ho già in serbo diverse novità e chicche funzionali che verranno integrate molto presto per rendere l'esperienza ancora più completa e divertente!
+</p>
 
     <hr class="riga2">
     <h2 class="tit">DISCLAIMER</h2>
@@ -288,10 +284,10 @@ document.addEventListener("DOMContentLoaded", () => {
         <h4 class="mini-img">Social: <a href="https://github.com/ingegnere-09" target="_blank"><i class="fab fa-github"></i></a> | <a href="https://www.instagram.com/ingegnere_09/" target="_blank"><i class="fab fa-instagram"></i></a> | <a href="https://www.threads.net/@ingegnere_09" target="_blank"><i class="fab fa-threads"></i></a> | <a href="https://discord.gg/6F8X6f7PXc" target="_blank"><i class="fab fa-discord"></i></a></h4>
         <h4 class="sc-fine">Email: <a href="mailto:berrettagregorio@gmail.com">berrettagregorio@gmail.com</a></h4>
         <link rel="icon" href="https://i.ibb.co/FsZ9NNF/favicon-48x48.png" type="image/x-icon">
-        <hr>
     </div>
+    <hr class="riga2">
  
-    <h6><a href="games/click_game/public/index.html">©</a> 2026 er-orario-2-0.vercel.app. Tutti i diritti riservati. È vietata la riproduzione, anche parziale, senza autorizzazione.</h6>
+    <h6>© 2026 er-orario-2-0.vercel.app. Tutti i diritti riservati. È vietata la riproduzione, anche parziale, senza autorizzazione.</h6>
 
 
     <script>
