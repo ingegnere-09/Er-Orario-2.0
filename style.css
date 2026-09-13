@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 *{
     background-color: #000807;
     color: #FBF9FF;
-    font-family: "Audiowide", sans-serif;
+    font-family: "Plus Jakarta Sans", sans-serif;
 }
 body{
     margin-left: 2.5%;
@@ -29,37 +30,15 @@ body{
 .title2{
     letter-spacing: 1px;
 }
-.tit{
-    letter-spacing: 0.25px;
-}
-.giorno{
-    margin-top: 20px;
-    font-size: 10px;
-    padding: 0px;
-}
-.riga1{
-    margin-top: 10px;
-    margin-bottom: 40px;
-}
-.riga2{
-    margin-top: 40px;
-    margin-bottom: 40px;
-}
 ul {
     margin-left: 0;
     padding-left: 0;
+    background-color: #fbf9ff00;
 }
 .inid{
     text-align: center;
 }
-.mt{
-    margin-left: 0;
-    padding-left: 0;
-    list-style-type: none;
-    font-size: 20px;
-    margin-bottom: 10px;
-    letter-spacing: 2px;
-}
+
 i{
     transition: all 0.35s;
 }
@@ -136,11 +115,6 @@ a:hover{
     overflow: hidden;
     height: 100vh; /* Impedisce di scrollare anche se il contenuto è lungo */
 }
-.warn-sc{
-    background-color: #9395d3;
-    color: #000807;
-    margin-top: 0px;
-}
 .copyrighted-badge:hover{
     filter: none;
     cursor: default;
@@ -153,28 +127,335 @@ a:hover{
     flex-wrap: wrap;
 }
 
+/* Modern Card Styles */
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.porta_tit {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.warn {
+    background: linear-gradient(135deg, #9395d3 0%, #b3b7ee 100%);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 15px rgba(147, 149, 211, 0.3);
+}
+
+.warn-sc {
+    background-color: transparent;
+    color: #000807;
+    margin-top: 0px;
+    font-weight: 600;
+}
+
+#materie {
+    background: rgba(251, 249, 255, 0.05);
+    border: 1px solid rgba(251, 249, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+#materie h3 {
+    font-weight: 700;
+    margin: 0;
+}
+
+.mt {
+    margin-left: 0;
+    padding-left: 0;
+    list-style-type: none;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    padding: 0.5rem 0.75rem;
+    background: rgba(251, 249, 255, 0.03);
+    border-radius: 8px;
+    border-left: 3px solid #938dd3;
+}
+
+.mt b {
+    font-weight: 600;
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background: rgba(147, 141, 211, 0.2);
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    font-size: 1.5rem;
+    border: 1px solid rgba(147, 141, 211, 0.3);
+}
+
+.giorno {
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    padding: 0px;
+    color: #b3b7ee;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.riga1, .riga2 {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(251, 249, 255, 0.2), transparent);
+    margin: 2rem 0;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    text-align: left;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: rgba(251, 249, 255, 0.03);
+    border: 1px solid rgba(251, 249, 255, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+table thead tr {
+    background: linear-gradient(135deg, rgba(147, 141, 211, 0.2) 0%, rgba(179, 183, 238, 0.1) 100%);
+}
+
+table th {
+    padding: 1rem 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    color: #b3b7ee;
+    border-bottom: 2px solid rgba(147, 141, 211, 0.3);
+}
+
+table td {
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid rgba(251, 249, 255, 0.05);
+}
+
+table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+table tbody tr:hover {
+    background: rgba(147, 141, 211, 0.1);
+}
+
+/* Title styling */
+h2 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin: 2rem 0 1rem 0;
+    color: #FBF9FF;
+    letter-spacing: 0.5px;
+}
+
+.tit {
+    letter-spacing: 0.5px;
+    font-weight: 700;
+}
+
+/* Story section */
+.storia {
+    background: rgba(251, 249, 255, 0.03);
+    border: 1px solid rgba(251, 249, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    line-height: 1.8;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Disclaimer section */
+#dis {
+    background: rgba(251, 249, 255, 0.03);
+    border: 1px solid rgba(251, 249, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    display: inline-block;
+}
+
+#dis a {
+    color: #b3b7ee;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+#dis a:hover {
+    color: #FBF9FF;
+    filter: drop-shadow(0px 0px 8px #B3B7EE);
+}
+
+/* Footer section */
+.fine {
+    background: rgba(251, 249, 255, 0.03);
+    border: 1px solid rgba(251, 249, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.mini-img, .sc-fine {
+    font-weight: 500;
+    margin: 0.5rem 0;
+    background: rgba(251, 249, 255, 0);
+}
+
+.mini-img a, .sc-fine a {
+    color: #b3b7ee;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.mini-img a:hover, .sc-fine a:hover {
+    color: #FBF9FF;
+    filter: drop-shadow(0px 0px 8px #B3B7EE);
+}
+
+.fine hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(251, 249, 255, 0.2), transparent);
+    margin: 1rem 0;
+}
+
+/* Copyright */
+h6 {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 2rem;
+    padding: 1rem;
+}
+
+h6 a {
+    color: #b3b7ee;
+    text-decoration: none;
+}
+
+/* Improved countdown box */
 .giorni-fine-scuola {
     text-align: center;
-    padding: 1rem 1.5rem;
+    padding: 1.5rem 2rem;
     border: 2px solid #938dd3;
-    border-radius: 12px;
+    border-radius: 16px;
     min-width: 140px;
+    background: rgba(147, 141, 211, 0.1);
+    box-shadow: 0 4px 20px rgba(147, 141, 211, 0.3);
+    margin: 1rem auto;
 }
 
 .giorni-fine-scuola .numero {
-    font-size: 4rem;
-    font-weight: bold;
+    font-size: 3.5rem;
+    font-weight: 800;
     color: #938dd3;
     line-height: 1;
+    text-shadow: 0 2px 10px rgba(147, 141, 211, 0.5);
 }
 
 .giorni-fine-scuola .etichetta {
-    font-size: 0.85rem;
-    color: #666;
-    margin-top: 4px;
+    font-size: 0.9rem;
+    color: #b3b7ee;
+    margin-top: 0.5rem;
+    font-weight: 500;
 }
 
 .giorni-fine-scuola.finita .numero {
     font-size: 1.8rem;
     color: #2ecc71;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+    
+    .porta_tit {
+        padding: 0.5rem 0;
+    }
+    
+    .title {
+        font-size: 2rem;
+        padding-left: 5%;
+    }
+    
+    .warn {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+    
+    #materie {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+    
+    .mt {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+    
+    table {
+        font-size: 0.9rem;
+        border-radius: 12px;
+    }
+    
+    table th, table td {
+        padding: 0.75rem 1rem;
+    }
+    
+    h2 {
+        font-size: 1.25rem;
+    }
+    
+    .storia, .fine {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+    
+    .giorni-fine-scuola {
+        padding: 1rem 1.5rem;
+        min-width: 120px;
+    }
+    
+    .giorni-fine-scuola .numero {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        margin-left: 3%;
+        margin-right: 3%;
+    }
+    
+    .title {
+        font-size: 1.1rem;
+    }
+    
+    table {
+        font-size: 0.85rem;
+    }
+    
+    table th, table td {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .giorni-fine-scuola .numero {
+        font-size: 2rem;
+    }
 }
