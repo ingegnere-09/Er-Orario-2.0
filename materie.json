@@ -1,7 +1,7 @@
 {
-  "lunedì": ["Fisica ","Ita/sto ","Inglese ", "Biologia ", "2H Informatica "],
-  "martedì": ["Biologia ","Fisica ", "Storia dell'arte ", "Chimica ", "2H Matematica "],
-  "mercoledì": ["Matematica ","Inglese ","Ita/sto ","Religione ","2H Motoria "],
+  "lunedì": ["2H Ita/sto ","Inglese ", "Biologia ", "2H Informatica "],
+  "martedì": ["Biologia ","Chimica ", "Storia dell'arte ", "Fisica ", "2H Matematica "],
+  "mercoledì": ["Matematica ","Fisica ","Ita/sto ","Religione ","2H Motoria "],
   "giovedì": ["Fisica ","2H ita/sto ","Filosofia ", "Chimica ", "Inglese "],
-  "venerdì": ["2H ita/sto ","Storia dell'arte ","Matematica ", "Filosofia ", "Chimica "]
+  "venerdì": ["Ita/sto ","Filosofia ","Matematica ","Inglese ", "Storia dell'arte "]
 }
