@@ -2,353 +2,504 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta name="theme-color" content="#101117">
+    <meta name="description" content="L'orario della classe, le prossime festività e il conto alla rovescia per la fine della scuola.">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" href="https://i.ibb.co/zJfV8HJ/icona-sito.png" type="image/x-icon">
     <title>ER ORARIO 2.0</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M12YF4T24Z"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-M12YF4T24Z');
+    </script>
 </head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-M12YF4T24Z"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-M12YF4T24Z');
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const target = document.getElementById("scrollTop");
-    let clickCount = 0;
-    let lastClick = 0;
-
-    target.addEventListener("click", (e) => {
-        const now = Date.now();
-
-        // evita spam click troppo rapidi
-        if (now - lastClick < 50) return;
-        lastClick = now;
-
-        clickCount++;
-
-        if (clickCount === 10) {
-            window.location.href = "games/game1.html";
-        }
-    });
-});
-</script>
-
 <body>
-    <div class="porta_tit">
-        <h1 class="title"><a id="scrollTop" class="title" href="#">ER ORARIO 2.0</a></h1>
-    </div>
-    <div id="materie"></div>
-<div class="giorni-fine-scuola" id="fineScuolaBox" style="text-align:center; padding: 0.8rem 1.2rem; border: 2px solid #938dd3; border-radius: 12px; margin-top: 0.5rem; display: none;">
-    <div class="numero" id="fineScuolaNumero" style="font-size: 3.5rem; font-weight: bold; color: #938dd3; line-height: 1; background-color: #f5f5f500; padding: 10px; border-radius: 8px;"></div>
-    <div class="etichetta" id="fineScuolaEtichetta" style="font-size: 0.85rem; color: #666; margin-top: 4px; background-color: #f5f5f500;"></div>
-</div>
+    <header class="topbar">
+        <a id="scrollTop" class="brand" href="#" aria-label="ER ORARIO 2.0, torna all'inizio">
+            <span class="brand-icon" aria-hidden="true"><i class="fa-regular fa-calendar-days"></i></span>
+            <span>ER ORARIO <span style="color: var(--accent)">2.0</span></span>
+        </a>
+        <div class="topbar-tools">
+            <div class="live-clock" aria-label="Ora attuale">
+                <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                <time id="liveClock" aria-live="off">--:--:--</time>
+            </div>
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Attiva modalità giorno" title="Attiva modalità giorno">
+                <i class="fa-regular fa-sun" aria-hidden="true"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="page-shell">
+        <section class="intro" aria-labelledby="pageTitle">
+            <div class="intro-copy">
+                <span class="eyebrow">Il tuo spazio scolastico</span>
+                <h1 id="pageTitle">Ciao, studente.</h1>
+                <p>L'orario di domani, il tempo che manca alla fine della scuola e una piccola pausa per sognare le prossime vacanze.</p>
+            </div>
+            <div class="intro-date">
+                <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                <time id="todayDate"></time>
+            </div>
+        </section>
+
+        <section class="dashboard-grid" aria-label="Riepilogo scolastico">
+            <article class="panel">
+                <div class="panel-heading">
+                    <span class="panel-icon" aria-hidden="true"><i class="fa-solid fa-book-open"></i></span>
+                    <div>
+                        <span class="section-kicker">Preparati</span>
+                        <h2>Domani in classe</h2>
+                        <p id="nextDayLabel">Le materie del giorno successivo</p>
+                    </div>
+                </div>
+                <div id="materie" aria-live="polite">
+                    <p class="weekend-message">Sto preparando il tuo orario...</p>
+                </div>
+            </article>
+
+            <article class="panel school-countdown">
+                <div class="panel-heading">
+                    <span class="panel-icon" aria-hidden="true"><i class="fa-solid fa-flag-checkered"></i></span>
+                    <div>
+                        <span class="section-kicker">Il traguardo si avvicina</span>
+                        <h2>Fine della scuola</h2>
+                    </div>
+                </div>
+                <div class="countdown-number" id="fineScuolaNumero">--</div>
+                <p class="countdown-label" id="fineScuolaEtichetta">giorni alla fine della scuola</p>
+                <div
+                    class="countdown-track"
+                    id="schoolProgressTrack"
+                    role="progressbar"
+                    aria-label="Percorso dell'anno scolastico"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                    aria-valuenow="0"
+                    aria-valuetext="0% dell'anno scolastico"
+                >
+                    <div class="countdown-fill" id="schoolProgressFill"></div>
+                </div>
+                <div class="progress-meta">
+                    <span>Dal 1 settembre</span>
+                    <strong id="schoolProgressLabel">0% completato</strong>
+                </div>
+            </article>
+        </section>
+
+        <section class="section-panel" aria-labelledby="scheduleTitle">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">Organizzati al meglio</span>
+                    <h2 id="scheduleTitle">L'orario della settimana</h2>
+                </div>
+                <p>Un colpo d'occhio, zero sorprese nello zaino.</p>
+            </div>
+            <div class="table-wrap">
+                <table id="scheduleTable">
+                    <thead>
+                        <tr><th scope="col">Giorno</th><th scope="col">Materie</th></tr>
+                    </thead>
+                    <tbody id="orarioTable"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section-panel" aria-labelledby="holidayTitle">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">La prossima pausa è più vicina</span>
+                    <h2 id="holidayTitle">Prossime festività</h2>
+                </div>
+                <p>Il conto alla rovescia si aggiorna in tempo reale.</p>
+            </div>
+            <article class="holiday-feature" aria-live="off">
+                <div class="holiday-feature-copy">
+                    <span class="holiday-feature-icon" aria-hidden="true"><i id="nextHolidayIcon" class="fa-solid fa-sparkles"></i></span>
+                    <div>
+                        <span class="section-kicker">La prossima occasione per festeggiare</span>
+                        <h3 id="nextFestivityName">Calcolo in corso...</h3>
+                        <span class="holiday-feature-date" id="nextFestivityDate"></span>
+                    </div>
+                </div>
+                <div class="holiday-timer" id="nextFestivityCountdown" aria-label="Tempo rimanente alla prossima festività">
+                    <div class="time-unit"><strong id="holidayDays">--</strong><span>giorni</span></div>
+                    <div class="time-unit"><strong id="holidayHours">--</strong><span>ore</span></div>
+                    <div class="time-unit"><strong id="holidayMinutes">--</strong><span>minuti</span></div>
+                    <div class="time-unit"><strong id="holidaySeconds">--</strong><span>secondi</span></div>
+                </div>
+            </article>
+            <div class="holiday-cards" id="holidayCards" aria-label="Le prossime tre festività"></div>
+            <div class="table-wrap">
+                <table id="festivitaTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Festività</th>
+                            <th scope="col">Data</th>
+                            <th scope="col">Tempo rimanente</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section-panel" aria-labelledby="storyTitle">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">Un progetto in evoluzione</span>
+                    <h2 id="storyTitle">La storia &amp; novità</h2>
+                </div>
+            </div>
+            <p class="story-copy">
+                La storia del progetto orario inizia il primo novembre 2023, quando decisi di creare uno strumento personalizzabile, semplice e intuitivo. Grazie al supporto costante dei miei compagni di classe e ai loro feedback, il sito si è evoluto costantemente: dalla prima versione fino alla 2.0 per l'anno 2025/26, che ha introdotto il countdown interattivo e nuovi easter egg.
+                <br><br>
+                Per questo nuovo anno scolastico 2026/27, il progetto si rinnova a partire da un importante restyle estetico, reso più moderno e pulito. Ma non finisce qui: ho già in serbo diverse novità e chicche funzionali che verranno integrate molto presto per rendere l'esperienza ancora più completa e divertente!
+            </p>
+        </section>
+
+        <section class="section-panel" aria-labelledby="disclaimerTitle">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">Da sapere</span>
+                    <h2 id="disclaimerTitle">Disclaimer</h2>
+                </div>
+            </div>
+            <p class="disclaimer-copy" id="dis">Utilizzando questo sito, accetti <a href="term.html">termini e condizioni</a>.</p>
+        </section>
+
+        <footer class="site-footer">
+            <div class="social-links" aria-label="Social">
+                <span>Seguimi:</span>
+                <a href="https://github.com/ingegnere-09" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+                <a href="https://www.instagram.com/ingegnere_09/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                <a href="https://www.threads.net/@ingegnere_09" target="_blank" rel="noopener noreferrer" aria-label="Threads"><i class="fa-brands fa-threads" aria-hidden="true"></i></a>
+                <a href="https://discord.gg/6F8X6f7PXc" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fa-brands fa-discord" aria-hidden="true"></i></a>
+            </div>
+            <a class="contact-link" href="mailto:berrettagregorio@gmail.com">berrettagregorio@gmail.com</a>
+        </footer>
+        <p class="copyright">© 2026 er-orario-2-0.vercel.app. Tutti i diritti riservati. È vietata la riproduzione, anche parziale, senza autorizzazione.</p>
+    </main>
+
     <script>
-        fetch('materie.json')
-            .then(response => response.json())
-            .then(data => {
-                const giorni = ["lunedì", "martedì", "mercoledì", "giovedì", "venerdì"];
-                const oggi = new Date();
-                const giorno = oggi.getDay();
-                let prossimoGiorno = (giorno + 1) % 7;
+        document.addEventListener('DOMContentLoaded', () => {
+            const weekdays = ['lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì'];
+            const weekdayNames = ['domenica', ...weekdays, 'sabato'];
+            const schoolEnd = new Date(2027, 5, 11, 13, 40, 0);
+            const schoolYearStart = new Date(2026, 8, 1);
+            const holidayIcons = {
+                Capodanno: 'fa-champagne-glasses',
+                Epifania: 'fa-star',
+                Pasqua: 'fa-egg',
+                'Lunedì dell’Angelo': 'fa-seedling',
+                'Festa della Liberazione': 'fa-dove',
+                'Festa dei Lavoratori': 'fa-hammer',
+                'Festa della Repubblica': 'fa-flag',
+                Ferragosto: 'fa-sun',
+                'Tutti i santi': 'fa-leaf',
+                Immacolata: 'fa-snowflake',
+                Natale: 'fa-gift',
+                'Santo Stefano': 'fa-cookie-bite'
+            };
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = themeToggle.querySelector('i');
+            const initialTheme = new Date().getHours() >= 7 && new Date().getHours() < 19 ? 'day' : 'night';
 
-                const giornoSettimana = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"];
-                const nomeGiorno = giornoSettimana[prossimoGiorno];
+            function setTheme(theme) {
+                document.body.dataset.theme = theme;
+                const nextTheme = theme === 'day' ? 'night' : 'day';
+                themeIcon.className = `fa-regular ${nextTheme === 'day' ? 'fa-sun' : 'fa-moon'}`;
+                themeToggle.setAttribute('aria-label', `Attiva modalità ${nextTheme === 'day' ? 'giorno' : 'notte'}`);
+                themeToggle.title = `Attiva modalità ${nextTheme === 'day' ? 'giorno' : 'notte'}`;
+            }
 
-                if (nomeGiorno === "sabato") {
-                    document.getElementById('materie').innerHTML = "<h3><b>Weekend in arrivo! Smetti di pensare allo zaino e concediti un po' di relax; il resto può aspettare.</b></h3>";
-                } else if (nomeGiorno === "domenica") {
-                    document.getElementById('materie').innerHTML = "<h3><b>Sabato! Approfitta di questa giornata per ricaricare le energie e lascia lo zaino in pace; il relax è la tua priorità oggi.</b></h3>";
-                } else if (giorni.includes(nomeGiorno)) {
-                    const materie = data[nomeGiorno];
-                    document.getElementById('materie').innerHTML = `<ul>${materie.map(m => `<li class="mt"><b>${m}</b></li>`).join('')}</ul>`;
-                }
-
-                let tableContent = `<tr><th><i>Giorno</i></th><th><i>Materie</i></th></tr>`;
-                giorni.forEach(giorno => {
-                    if (data[giorno]) {
-                        tableContent += `<tr><td><b><i>${giorno.charAt(0).toUpperCase() + giorno.slice(1)}</i></b></td><td>${data[giorno].join(', ')}</td></tr>`;
-                    }
-                });
-                document.querySelector('table').innerHTML = tableContent;
+            setTheme(initialTheme);
+            themeToggle.addEventListener('click', () => {
+                setTheme(document.body.dataset.theme === 'day' ? 'night' : 'day');
             });
-    </script>
-    <script>
-(function() {
-    function aggiornaConto() {
-        const ora = new Date();
-        const fineScuola = new Date(2027, 5, 11, 13, 40, 0);
 
-        const box = document.getElementById('fineScuolaBox');
-        const numero = document.getElementById('fineScuolaNumero');
-        const etichetta = document.getElementById('fineScuolaEtichetta');
-
-        if (!box || !numero || !etichetta) return;
-
-        // Nascondi il box se è weekend (sabato/domenica mostrano messaggio diverso senza materie)
-        const oggi = new Date();
-        const prossimoGiorno = (oggi.getDay() + 1) % 7;
-        if (prossimoGiorno === 0 || prossimoGiorno === 6) {
-            box.style.display = 'none';
-            return;
-        }
-
-        box.style.display = 'block';
-
-        const diff = fineScuola.getTime() - ora.getTime();
-
-        if (diff <= 0) {
-            numero.style.fontSize = '1.6rem';
-            numero.style.color = '#2ecc71';
-            box.style.borderColor = '#2ecc71';
-            numero.textContent = '🎉 Scuola finita!';
-            etichetta.textContent = '';
-        } else {
-            const giorniRimasti = Math.ceil(diff / (1000 * 60 * 60 * 24));
-            numero.style.fontSize = '3.5rem';
-            numero.style.color = '#938dd3';
-            box.style.borderColor = '#938dd3';
-            numero.textContent = giorniRimasti;
-            etichetta.textContent = giorniRimasti === 1 ? 'giorno alla fine della scuola' : 'giorni alla fine della scuola';
-        }
-    }
-
-    aggiornaConto();
-    setInterval(aggiornaConto, 1000);
-})();
-</script>
-
-    <p class="giorno">Queste sono le materie per il giorno successivo</p>
-    <hr class="riga1">
-
-    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align:left;">
-        <thead>
-            <tr>
-                <th>Giorno</th>
-                <th>Materie</th>
-            </tr>
-        </thead>
-        <tbody id="orarioTable">
-        </tbody>
-    </table>
-
-    <hr class="riga2">
-    <h2>PROSSIME FESTIVITÀ</h2>
-    <table border="1" cellspadding="8" cellspacing="0" style="width: 100%; text-align:left;" id="festivitaTable">
-        <thead>
-            <tr>
-                <th>Festività</th>
-                <th>Data</th>
-                <th>Tempo rimanente</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <hr class="riga2">
-
-    <script>
-    (function() {
-        function calcolaPasqua(anno) {
-            var a = anno % 19;
-            var b = Math.floor(anno / 100);
-            var c = anno % 100;
-            var d = Math.floor(b / 4);
-            var e = b % 4;
-            var f = Math.floor((b + 8) / 25);
-            var g = Math.floor((b - f + 1) / 3);
-            var h = (19 * a + b - d - g + 15) % 30;
-            var i = Math.floor(c / 4);
-            var k = c % 4;
-            var l = (32 + 2 * e + 2 * i - h - k) % 7;
-            var m = Math.floor((a + 11 * h + 22 * l) / 451);
-            var mese = Math.floor((h + l - 7 * m + 114) / 31);
-            var giorno = ((h + l - 7 * m + 114) % 31) + 1;
-            return new Date(anno, mese - 1, giorno, 0, 0, 0, 0);
-        }
-
-        function formatDate(date) {
-            const day = date.getDate().toString().padStart(2, '0');
-            const month = (date.getMonth() + 1).toString().padStart(2, '0');
-            const year = date.getFullYear();
-            return `${day}/${month}/${year}`;
-        }
-
-        function getRemainingTime(targetDate, now) {
-            let distanza = targetDate.getTime() - now.getTime();
-            if (distanza < 0) distanza = 0;
-            const secondi = Math.floor(distanza / 1000) % 60;
-            const minuti = Math.floor(distanza / (1000 * 60)) % 60;
-            const ore = Math.floor(distanza / (1000 * 60 * 60)) % 24;
-            const giorni = Math.floor(distanza / (1000 * 60 * 60 * 24));
-            return { giorni, ore, minuti, secondi };
-        }
-
-        function getFestivita(anno) {
-            var pasqua = calcolaPasqua(anno);
-            var lunediAngelo = new Date(pasqua); lunediAngelo.setDate(pasqua.getDate() + 1);
-            return [
-                { nome: "Capodanno", data: new Date(anno, 0, 1, 0, 0, 0, 0) },
-                { nome: "Epifania", data: new Date(anno, 0, 6, 0, 0, 0, 0) },
-                { nome: "Pasqua", data: pasqua },
-                { nome: "Lunedì dell’Angelo", data: lunediAngelo },
-                { nome: "Festa della Liberazione", data: new Date(anno, 3, 25, 0, 0, 0, 0) },
-                { nome: "Festa dei Lavoratori", data: new Date(anno, 4, 1, 0, 0, 0, 0) },
-                { nome: "Festa della Repubblica", data: new Date(anno, 5, 2, 0, 0, 0, 0) },
-                { nome: "Ferragosto", data: new Date(anno, 7, 15, 0, 0, 0, 0) },
-                { nome: "Tutti i santi", data: new Date(anno, 10, 1, 0, 0, 0, 0) },
-                { nome: "Immacolata", data: new Date(anno, 11, 8, 0, 0, 0, 0) },
-                { nome: "Natale", data: new Date(anno, 11, 25, 0, 0, 0, 0) },
-                { nome: "Santo Stefano", data: new Date(anno, 11, 26, 0, 0, 0, 0) }
-            ];
-        }
-
-        function getNextFestivity(festivitaList, now) {
-            for (let i = 0; i < festivitaList.length; i++) {
-                if (festivitaList[i].data.getTime() > now.getTime()) {
-                    return festivitaList[i];
-                }
-            }
-            return null;
-        }
-
-        function aggiornaTabellaFestivita() {
-            const nowOriginal = new Date();
-
-            let anno = nowOriginal.getFullYear();
-            let festivita = getFestivita(anno);
-
-            if (festivita.every(f => f.data.getTime() <= nowOriginal.getTime())) {
-                anno++;
-                festivita = getFestivita(anno);
-            }
-
-            const now = new Date(nowOriginal.getFullYear(), nowOriginal.getMonth(), nowOriginal.getDate());
-            const festivitaFuture = festivita.filter(f => f.data.getTime() >= now.getTime());
-            festivitaFuture.sort((a,b) => a.data - b.data);
-
-            const nextFest = getNextFestivity(festivitaFuture, nowOriginal);
-
-            const tbody = document.querySelector('#festivitaTable tbody');
-            tbody.innerHTML = '';
-
-            festivitaFuture.forEach(f => {
-                const tr = document.createElement('tr');
-                if (nextFest && f.nome === nextFest.nome) {
-                    tr.style.backgroundColor = '#d0eaff';
-                    tr.style.fontWeight = 'bold';
-                }
-                const tdNome = document.createElement('td');
-                tdNome.textContent = f.nome;
-                const tdData = document.createElement('td');
-                tdData.textContent = formatDate(f.data);
-                const tdTempo = document.createElement('td');
-                const remaining = getRemainingTime(f.data, nowOriginal);
-                tdTempo.textContent = `${remaining.giorni} gg, ${remaining.ore.toString().padStart(2,'0')}h, ${remaining.minuti.toString().padStart(2,'0')}m, ${remaining.secondi.toString().padStart(2,'0')}s`;
-                tr.appendChild(tdNome);
-                tr.appendChild(tdData);
-                tr.appendChild(tdTempo);
-                tbody.appendChild(tr);
+            const title = document.getElementById('scrollTop');
+            let titleClicks = 0;
+            title.addEventListener('click', event => {
+                event.preventDefault();
+                titleClicks += 1;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                if (titleClicks === 10) window.location.href = 'games/game1.html';
             });
-        }
 
-        aggiornaTabellaFestivita();
-        setInterval(aggiornaTabellaFestivita, 1000);
-    })();
-    </script>
+            const clock = document.getElementById('liveClock');
+            const dateDisplay = document.getElementById('todayDate');
+            const dateFormatter = new Intl.DateTimeFormat('it-IT', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
 
-    <h2 class="tit">LA STORIA & NOVITÀ</h2>
-<p class="storia">
-  La storia del progetto orario inizia il primo novembre 2023, quando decisi di creare uno strumento personalizzabile, semplice e intuitivo. Grazie al supporto costante dei miei compagni di classe e ai loro feedback, il sito si è evoluto costantemente: dalla prima versione fino alla 2.0 per l'anno 2025/26, che ha introdotto il countdown interattivo e nuovi easter egg.
-  <br><br>
-  Per questo nuovo anno scolastico 2026/27, il progetto si rinnova a partire da un importante restyle estetico, reso più moderno e pulito. Ma non finisce qui: ho già in serbo diverse novità e chicche funzionali che verranno integrate molto presto per rendere l'esperienza ancora più completa e divertente!
-</p>
-
-    <hr class="riga2">
-    <h2 class="tit">DISCLAIMER</h2>
-    <p id="dis">Utilizzando questo sito, accetti <a href="term.html">termini e condizioni</a>.</p>
-    
-    <hr class="riga2">
-    <div class="fine">
-        <h4 class="mini-img">Social: <a href="https://github.com/ingegnere-09" target="_blank"><i class="fab fa-github"></i></a> | <a href="https://www.instagram.com/ingegnere_09/" target="_blank"><i class="fab fa-instagram"></i></a> | <a href="https://www.threads.net/@ingegnere_09" target="_blank"><i class="fab fa-threads"></i></a> | <a href="https://discord.gg/6F8X6f7PXc" target="_blank"><i class="fab fa-discord"></i></a></h4>
-        <h4 class="sc-fine">Email: <a href="mailto:berrettagregorio@gmail.com">berrettagregorio@gmail.com</a></h4>
-        <link rel="icon" href="https://i.ibb.co/FsZ9NNF/favicon-48x48.png" type="image/x-icon">
-    </div>
-    <hr class="riga2">
- 
-    <h6>© 2026 er-orario-2-0.vercel.app. Tutti i diritti riservati. È vietata la riproduzione, anche parziale, senza autorizzazione.</h6>
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const polDiv = document.querySelector('.pol');
-            if (polDiv) {
-                polDiv.addEventListener('click', function() {
-                    polDiv.classList.add('hidden');
-                });
+            function updateClock() {
+                const now = new Date();
+                clock.textContent = new Intl.DateTimeFormat('it-IT', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hourCycle: 'h23'
+                }).format(now);
+                dateDisplay.textContent = dateFormatter.format(now);
             }
 
-            // Scroll fluido su titolo
-            const titolo = document.getElementById('scrollTop');
-            if (titolo) {
-                titolo.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
+            function renderSchedule(data) {
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const nextDay = weekdayNames[tomorrow.getDay()];
+                const materie = document.getElementById('materie');
+                const nextDayLabel = document.getElementById('nextDayLabel');
+                nextDayLabel.textContent = `Domani è ${nextDay}`;
+
+                if (nextDay === 'sabato') {
+                    materie.innerHTML = '<p class="weekend-message">Weekend in arrivo! Smetti di pensare allo zaino e concediti un po’ di relax; il resto può aspettare.</p>';
+                } else if (nextDay === 'domenica') {
+                    materie.innerHTML = '<p class="weekend-message">È domenica: approfittane per ricaricare le energie e lascia lo zaino in pace.</p>';
+                } else {
+                    const list = document.createElement('ul');
+                    (data[nextDay] || []).forEach(subject => {
+                        const item = document.createElement('li');
+                        item.className = 'mt';
+                        const label = document.createElement('b');
+                        label.textContent = subject.trim();
+                        item.appendChild(label);
+                        list.appendChild(item);
                     });
+                    materie.replaceChildren(list);
+                }
+
+                const tableBody = document.getElementById('orarioTable');
+                tableBody.replaceChildren();
+                weekdays.forEach(day => {
+                    if (!data[day]) return;
+                    const row = document.createElement('tr');
+                    if (day === nextDay) row.classList.add('today-row');
+                    const dayCell = document.createElement('td');
+                    dayCell.textContent = day;
+                    const subjectCell = document.createElement('td');
+                    subjectCell.textContent = data[day].map(subject => subject.trim()).join(', ');
+                    row.append(dayCell, subjectCell);
+                    tableBody.appendChild(row);
                 });
             }
+
+            function updateSchoolCountdown() {
+                const now = new Date();
+                const tomorrow = new Date(now);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const box = document.querySelector('.school-countdown');
+                const progressTrack = document.getElementById('schoolProgressTrack');
+                const progressFill = document.getElementById('schoolProgressFill');
+                const progressLabel = document.getElementById('schoolProgressLabel');
+
+                if (tomorrow.getDay() === 0 || tomorrow.getDay() === 6) {
+                    box.hidden = true;
+                    return;
+                }
+
+                box.hidden = false;
+                const remaining = schoolEnd.getTime() - now.getTime();
+                const number = document.getElementById('fineScuolaNumero');
+                const label = document.getElementById('fineScuolaEtichetta');
+
+                if (remaining <= 0) {
+                    number.textContent = '🎉';
+                    label.textContent = 'Scuola finita!';
+                } else {
+                    const daysLeft = Math.ceil(remaining / 86400000);
+                    number.textContent = daysLeft;
+                    label.textContent = daysLeft === 1 ? 'giorno alla fine della scuola' : 'giorni alla fine della scuola';
+                }
+
+                const totalDuration = schoolEnd.getTime() - schoolYearStart.getTime();
+                const progress = Math.max(0, Math.min(100, ((now.getTime() - schoolYearStart.getTime()) / totalDuration) * 100));
+                const roundedProgress = Math.round(progress);
+                progressFill.style.width = `${progress}%`;
+                progressTrack.setAttribute('aria-valuenow', String(roundedProgress));
+                progressTrack.setAttribute('aria-valuetext', `${roundedProgress}% dell'anno scolastico`);
+                progressLabel.textContent = `${roundedProgress}% completato`;
+            }
+
+            function calculateEaster(year) {
+                const a = year % 19;
+                const b = Math.floor(year / 100);
+                const c = year % 100;
+                const d = Math.floor(b / 4);
+                const e = b % 4;
+                const f = Math.floor((b + 8) / 25);
+                const g = Math.floor((b - f + 1) / 3);
+                const h = (19 * a + b - d - g + 15) % 30;
+                const i = Math.floor(c / 4);
+                const k = c % 4;
+                const l = (32 + 2 * e + 2 * i - h - k) % 7;
+                const m = Math.floor((a + 11 * h + 22 * l) / 451);
+                const month = Math.floor((h + l - 7 * m + 114) / 31);
+                const day = ((h + l - 7 * m + 114) % 31) + 1;
+                return new Date(year, month - 1, day);
+            }
+
+            function getHolidays(year) {
+                const easter = calculateEaster(year);
+                const easterMonday = new Date(year, easter.getMonth(), easter.getDate() + 1);
+                return [
+                    { name: 'Capodanno', date: new Date(year, 0, 1) },
+                    { name: 'Epifania', date: new Date(year, 0, 6) },
+                    { name: 'Pasqua', date: easter },
+                    { name: 'Lunedì dell’Angelo', date: easterMonday },
+                    { name: 'Festa della Liberazione', date: new Date(year, 3, 25) },
+                    { name: 'Festa dei Lavoratori', date: new Date(year, 4, 1) },
+                    { name: 'Festa della Repubblica', date: new Date(year, 5, 2) },
+                    { name: 'Ferragosto', date: new Date(year, 7, 15) },
+                    { name: 'Tutti i santi', date: new Date(year, 10, 1) },
+                    { name: 'Immacolata', date: new Date(year, 11, 8) },
+                    { name: 'Natale', date: new Date(year, 11, 25) },
+                    { name: 'Santo Stefano', date: new Date(year, 11, 26) }
+                ];
+            }
+
+            let holidayYear = new Date().getFullYear();
+            let holidayCandidates = [
+                ...getHolidays(holidayYear),
+                ...getHolidays(holidayYear + 1)
+            ].sort((a, b) => a.date - b.date);
+            const holidayDateFormatter = new Intl.DateTimeFormat('it-IT', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            const holidayCards = document.getElementById('holidayCards');
+            const holidayTableBody = document.querySelector('#festivitaTable tbody');
+            let renderedHolidayKey = null;
+
+            function createHolidayCard(holiday) {
+                const card = document.createElement('article');
+                card.className = 'holiday-card';
+                card.dataset.holidayDate = holiday.date.getTime();
+                const icon = document.createElement('i');
+                icon.className = `fa-solid ${holidayIcons[holiday.name] || 'fa-star'}`;
+                icon.setAttribute('aria-hidden', 'true');
+                const heading = document.createElement('h3');
+                heading.textContent = holiday.name;
+                const date = document.createElement('p');
+                date.textContent = holidayDateFormatter.format(holiday.date);
+                const countdown = document.createElement('strong');
+                countdown.className = 'holiday-card-countdown';
+                card.append(icon, heading, date, countdown);
+                return card;
+            }
+
+            function renderUpcomingHolidays(now) {
+                const currentYear = now.getFullYear();
+                if (currentYear !== holidayYear) {
+                    holidayYear = currentYear;
+                    holidayCandidates = [
+                        ...getHolidays(holidayYear),
+                        ...getHolidays(holidayYear + 1)
+                    ].sort((a, b) => a.date - b.date);
+                }
+
+                const upcoming = holidayCandidates.filter(holiday => holiday.date.getTime() > now.getTime());
+                const firstHoliday = upcoming[0];
+                const firstHolidayKey = firstHoliday ? firstHoliday.date.getTime() : null;
+                if (firstHolidayKey === renderedHolidayKey) return;
+                renderedHolidayKey = firstHolidayKey;
+
+                holidayCards.replaceChildren(...upcoming.slice(0, 3).map(createHolidayCard));
+                holidayTableBody.replaceChildren(...upcoming.slice(0, 12).map(holiday => {
+                    const row = document.createElement('tr');
+                    row.dataset.holidayDate = holiday.date.getTime();
+                    const name = document.createElement('td');
+                    name.textContent = holiday.name;
+                    const date = document.createElement('td');
+                    date.textContent = holidayDateFormatter.format(holiday.date);
+                    const remaining = document.createElement('td');
+                    remaining.className = 'holiday-table-countdown';
+                    row.append(name, date, remaining);
+                    return row;
+                }));
+
+                if (firstHoliday) {
+                    document.getElementById('nextFestivityName').textContent = firstHoliday.name;
+                    document.getElementById('nextFestivityDate').textContent = holidayDateFormatter.format(firstHoliday.date);
+                    document.getElementById('nextHolidayIcon').className = `fa-solid ${holidayIcons[firstHoliday.name] || 'fa-star'}`;
+                } else {
+                    document.getElementById('nextFestivityName').textContent = 'Festività non disponibili';
+                }
+            }
+
+            function formatRemaining(targetTime, now) {
+                const distance = Math.max(0, targetTime - now);
+                const seconds = Math.floor(distance / 1000);
+                return {
+                    days: Math.floor(seconds / 86400),
+                    hours: Math.floor(seconds / 3600) % 24,
+                    minutes: Math.floor(seconds / 60) % 60,
+                    seconds: seconds % 60
+                };
+            }
+
+            function updateHolidayCountdowns() {
+                const nowDate = new Date();
+                const now = nowDate.getTime();
+                renderUpcomingHolidays(nowDate);
+                const next = holidayCandidates.find(holiday => holiday.date.getTime() > now);
+                if (next) {
+                    const remaining = formatRemaining(next.date.getTime(), now);
+                    document.getElementById('holidayDays').textContent = String(remaining.days).padStart(2, '0');
+                    document.getElementById('holidayHours').textContent = String(remaining.hours).padStart(2, '0');
+                    document.getElementById('holidayMinutes').textContent = String(remaining.minutes).padStart(2, '0');
+                    document.getElementById('holidaySeconds').textContent = String(remaining.seconds).padStart(2, '0');
+                }
+
+                holidayCards.querySelectorAll('.holiday-card').forEach(card => {
+                    const remaining = formatRemaining(Number(card.dataset.holidayDate), now);
+                    card.querySelector('.holiday-card-countdown').textContent =
+                        remaining.days === 0 ? 'È oggi!' : `Tra ${remaining.days} ${remaining.days === 1 ? 'giorno' : 'giorni'}`;
+                });
+
+                holidayTableBody.querySelectorAll('tr').forEach(row => {
+                    const remaining = formatRemaining(Number(row.dataset.holidayDate), now);
+                    row.querySelector('.holiday-table-countdown').textContent =
+                        `${remaining.days} gg, ${String(remaining.hours).padStart(2, '0')}h, ${String(remaining.minutes).padStart(2, '0')}m, ${String(remaining.seconds).padStart(2, '0')}s`;
+                });
+            }
+
+            updateClock();
+            updateSchoolCountdown();
+            updateHolidayCountdowns();
+            window.setInterval(() => {
+                updateClock();
+                updateSchoolCountdown();
+                updateHolidayCountdowns();
+            }, 1000);
+
+            fetch('materie.json')
+                .then(response => {
+                    if (!response.ok) throw new Error(`Caricamento orario non riuscito (${response.status})`);
+                    return response.json();
+                })
+                .then(renderSchedule)
+                .catch(error => {
+                    console.error('Impossibile caricare le materie:', error);
+                    document.getElementById('materie').innerHTML =
+                        '<p class="weekend-message">Non riesco a caricare l’orario in questo momento. Riprova tra poco.</p>';
+                });
         });
     </script>
 
-    <a class="copyrighted-badge" title="Copyrighted.com Registered &amp; Protected" target="_blank" href="https://app.copyrighted.com/website/wMLXougaDKkQu4gd/"><img alt="Copyrighted.com Registered &amp; Protected" border="0" width="125" height="75" srcset="https://static.copyrighted.com/badges/125x75/06_2x.png 2x" src="https://static.copyrighted.com/badges/125x75/06.png"></a><script src="https://static.copyrighted.com/badges/helper.js"></script>
-    <!--Use the below code snippet to provide real time updates to the live chat plugin without the need of copying and paste each time to your website when changes are made via PBX-->
-<call-us-selector phonesystem-url="https://1402.3cx.cloud" party="LiveChat517714"></call-us-selector>
- 
-<!--Incase you don't want real time updates to the live chat plugin when options are changed, use the below code snippet. Please note that each time you change the settings you will need to copy and paste the snippet code to your website--> 
-<!--<call-us 
-phonesystem-url="https://1402.3cx.cloud" 
-style="position:fixed;font-size:16px;line-height:17px;z-index: 99999;--call-us-main-accent-color:#938dd3;--call-us-main-background-color:#fbf9ff;--call-us-plate-background-color:#000807;--call-us-plate-font-color:#b3b7ee;--call-us-main-font-color:#000807;--call-us-agent-bubble-color:#00080710;right: 20px; bottom: 20px;" 
-id="wp-live-chat-by-3CX" 
-minimized="true" 
-animation-style="slideup" 
-party="LiveChat517714" 
-minimized-style="bubbleright" 
-allow-call="true" 
-allow-video="false" 
-allow-soundnotifications="true" 
-enable-mute="true" 
-enable-onmobile="true" 
-offline-enabled="true" 
-enable="true" 
-ignore-queueownership="false" 
-authentication="name" 
-show-operator-actual-name="true" 
-aknowledge-received="true" 
-gdpr-enabled="true" 
-gdpr-message="Acconsento al trattamento dei miei dati personali e all&#039;uso dei cookie per partecipare ad una chat elaborata dal proprietario del sito web, ai fini della chat/assistenza per un periodo di 30 giorni come previsto dal GDPR." 
-message-userinfo-format="both" 
-message-dateformat="both" 
-lang="browser" 
-button-icon-type="doublebubble" 
-greeting-visibility="none" 
-greeting-offline-visibility="none" 
-chat-delay="2000" 
-enable-direct-call="false" 
-enable-ga="false" 
-></call-us>--> 
-<script defer src="https://downloads-global.3cx.com/downloads/livechatandtalk/v1/callus.js" id="tcx-callus-js" charset="utf-8"></script>
+    <a class="copyrighted-badge" title="Copyrighted.com Registered &amp; Protected" target="_blank" rel="noopener noreferrer" href="https://app.copyrighted.com/website/wMLXougaDKkQu4gd/">
+        <img alt="Copyrighted.com Registered &amp; Protected" width="125" height="75" srcset="https://static.copyrighted.com/badges/125x75/06_2x.png 2x" src="https://static.copyrighted.com/badges/125x75/06.png">
+    </a>
+    <script src="https://static.copyrighted.com/badges/helper.js"></script>
+    <call-us-selector phonesystem-url="https://1402.3cx.cloud" party="LiveChat517714"></call-us-selector>
+    <script defer src="https://downloads-global.3cx.com/downloads/livechatandtalk/v1/callus.js" id="tcx-callus-js" charset="utf-8"></script>
 </body>
 </html>
