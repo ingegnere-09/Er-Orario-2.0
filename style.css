@@ -665,6 +665,18 @@ tbody tr:hover {
     font-size: 0.9rem;
 }
 
+.weather-promo {
+    margin: -0.5rem 0 1.25rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.weather-promo a {
+    color: var(--accent);
+    font-weight: 700;
+}
+
 .copyright {
     padding-bottom: 1.25rem;
     color: var(--muted);
