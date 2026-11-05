@@ -85,7 +85,7 @@
                     <div class="countdown-fill" id="schoolProgressFill"></div>
                 </div>
                 <div class="progress-meta">
-                    <span>Dal 1 settembre</span>
+                    <span>14 settembre 2026 – 10 giugno 2027</span>
                     <strong id="schoolProgressLabel">0% completato</strong>
                 </div>
             </article>
@@ -113,34 +113,34 @@
             <div class="section-heading">
                 <div>
                     <span class="section-kicker">La prossima pausa è più vicina</span>
-                    <h2 id="holidayTitle">Prossime festività</h2>
+                    <h2 id="holidayTitle">Prossime vacanze</h2>
                 </div>
-                <p>Il conto alla rovescia si aggiorna in tempo reale.</p>
+                <p>Periodi e festività del calendario scolastico 2026/27.</p>
             </div>
             <article class="holiday-feature" aria-live="off">
                 <div class="holiday-feature-copy">
                     <span class="holiday-feature-icon" aria-hidden="true"><i id="nextHolidayIcon" class="fa-solid fa-sparkles"></i></span>
                     <div>
-                        <span class="section-kicker">La prossima occasione per festeggiare</span>
+                        <span class="section-kicker">La prossima pausa scolastica</span>
                         <h3 id="nextFestivityName">Calcolo in corso...</h3>
                         <span class="holiday-feature-date" id="nextFestivityDate"></span>
                     </div>
                 </div>
-                <div class="holiday-timer" id="nextFestivityCountdown" aria-label="Tempo rimanente alla prossima festività">
+                <div class="holiday-timer" id="nextFestivityCountdown" aria-label="Tempo rimanente all'inizio della prossima pausa scolastica">
                     <div class="time-unit"><strong id="holidayDays">--</strong><span>giorni</span></div>
                     <div class="time-unit"><strong id="holidayHours">--</strong><span>ore</span></div>
                     <div class="time-unit"><strong id="holidayMinutes">--</strong><span>minuti</span></div>
                     <div class="time-unit"><strong id="holidaySeconds">--</strong><span>secondi</span></div>
                 </div>
             </article>
-            <div class="holiday-cards" id="holidayCards" aria-label="Le prossime tre festività"></div>
+            <div class="holiday-cards" id="holidayCards" aria-label="Le prossime vacanze e festività"></div>
             <div class="table-wrap">
                 <table id="festivitaTable">
                     <thead>
                         <tr>
-                            <th scope="col">Festività</th>
-                            <th scope="col">Data</th>
-                            <th scope="col">Tempo rimanente</th>
+                            <th scope="col">Vacanza o festività</th>
+                            <th scope="col">Periodo</th>
+                            <th scope="col">Tempo all'inizio</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -190,8 +190,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             const weekdays = ['lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì'];
             const weekdayNames = ['domenica', ...weekdays, 'sabato'];
-            const schoolEnd = new Date(2027, 5, 11, 13, 40, 0);
-            const schoolYearStart = new Date(2026, 8, 1);
+            const schoolLastDay = new Date(2027, 5, 10);
+            const schoolYearStart = new Date(2026, 8, 14);
+            const schoolEnd = new Date(2027, 5, 11);
             const holidayIcons = {
                 Capodanno: 'fa-champagne-glasses',
                 Epifania: 'fa-star',
@@ -204,7 +205,11 @@
                 'Tutti i santi': 'fa-leaf',
                 Immacolata: 'fa-snowflake',
                 Natale: 'fa-gift',
-                'Santo Stefano': 'fa-cookie-bite'
+                'Santo Stefano': 'fa-cookie-bite',
+                'Vacanze di Natale': 'fa-gift',
+                'Ponte dell’Immacolata': 'fa-snowflake',
+                'Vacanze di Carnevale': 'fa-masks-theater',
+                'Vacanze di Pasqua': 'fa-egg'
             };
             const themeToggle = document.getElementById('themeToggle');
             const themeIcon = themeToggle.querySelector('i');
@@ -307,20 +312,22 @@
                 }
 
                 box.hidden = false;
-                const remaining = schoolEnd.getTime() - now.getTime();
                 const number = document.getElementById('fineScuolaNumero');
                 const label = document.getElementById('fineScuolaEtichetta');
 
-                if (remaining <= 0) {
+                if (now >= schoolEnd) {
                     number.textContent = '🎉';
                     label.textContent = 'Scuola finita!';
+                } else if (now >= schoolLastDay) {
+                    number.textContent = '🎓';
+                    label.textContent = 'Ultimo giorno di scuola!';
                 } else {
-                    const daysLeft = Math.ceil(remaining / 86400000);
+                    const daysLeft = Math.ceil((schoolLastDay.getTime() - now.getTime()) / 86400000);
                     number.textContent = daysLeft;
                     label.textContent = daysLeft === 1 ? 'giorno alla fine della scuola' : 'giorni alla fine della scuola';
                 }
 
-                const totalDuration = schoolEnd.getTime() - schoolYearStart.getTime();
+                const totalDuration = schoolLastDay.getTime() - schoolYearStart.getTime();
                 const progress = Math.max(0, Math.min(100, ((now.getTime() - schoolYearStart.getTime()) / totalDuration) * 100));
                 const roundedProgress = Math.round(progress);
                 progressFill.style.width = `${progress}%`;
@@ -363,34 +370,91 @@
                     { name: 'Immacolata', date: new Date(year, 11, 8) },
                     { name: 'Natale', date: new Date(year, 11, 25) },
                     { name: 'Santo Stefano', date: new Date(year, 11, 26) }
+                ].map(holiday => ({
+                    name: holiday.name,
+                    startDate: holiday.date,
+                    endDate: holiday.date
+                }));
+            }
+
+            const schoolBreaks = [
+                { name: 'Ponte dell’Immacolata', startDate: new Date(2026, 11, 7), endDate: new Date(2026, 11, 8) },
+                { name: 'Vacanze di Natale', startDate: new Date(2026, 11, 23), endDate: new Date(2027, 0, 6) },
+                { name: 'Vacanze di Carnevale', startDate: new Date(2027, 1, 6), endDate: new Date(2027, 1, 10) },
+                { name: 'Vacanze di Pasqua', startDate: new Date(2027, 2, 25), endDate: new Date(2027, 2, 30) }
+            ];
+
+            function buildHolidayCandidates(year) {
+                const nationalHolidays = [
+                    ...getHolidays(year),
+                    ...getHolidays(year + 1)
                 ];
+                const periods = [...schoolBreaks];
+
+                return [...periods, ...nationalHolidays.filter(holiday =>
+                    !periods.some(period =>
+                        holiday.startDate >= period.startDate && holiday.endDate <= period.endDate
+                    )
+                )].sort((a, b) => a.startDate - b.startDate);
             }
 
             let holidayYear = new Date().getFullYear();
-            let holidayCandidates = [
-                ...getHolidays(holidayYear),
-                ...getHolidays(holidayYear + 1)
-            ].sort((a, b) => a.date - b.date);
+            let holidayCandidates = buildHolidayCandidates(holidayYear);
             const holidayDateFormatter = new Intl.DateTimeFormat('it-IT', {
                 day: 'numeric',
                 month: 'long',
                 year: 'numeric'
             });
+            const holidayRangeFormatter = new Intl.DateTimeFormat('it-IT', {
+                day: 'numeric',
+                month: 'long'
+            });
+            const holidayDayFormatter = new Intl.DateTimeFormat('it-IT', { day: 'numeric' });
+            const holidayMonthFormatter = new Intl.DateTimeFormat('it-IT', { month: 'long' });
             const holidayCards = document.getElementById('holidayCards');
             const holidayTableBody = document.querySelector('#festivitaTable tbody');
             let renderedHolidayKey = null;
 
+            function formatHolidayRange(holiday) {
+                if (holiday.startDate.getTime() === holiday.endDate.getTime()) {
+                    return holidayDateFormatter.format(holiday.startDate);
+                }
+
+                const startYear = holiday.startDate.getFullYear();
+                const endYear = holiday.endDate.getFullYear();
+                const start = holidayRangeFormatter.format(holiday.startDate);
+                const end = holidayRangeFormatter.format(holiday.endDate);
+                if (startYear === endYear &&
+                    holiday.startDate.getMonth() === holiday.endDate.getMonth()) {
+                    return `${holidayDayFormatter.format(holiday.startDate)}–${holidayDayFormatter.format(holiday.endDate)} ${holidayMonthFormatter.format(holiday.endDate)} ${endYear}`;
+                }
+
+                return startYear === endYear
+                    ? `${start} – ${end} ${endYear}`
+                    : `${start} ${startYear} – ${end} ${endYear}`;
+            }
+
+            function getHolidayEndTime(holiday) {
+                return new Date(
+                    holiday.endDate.getFullYear(),
+                    holiday.endDate.getMonth(),
+                    holiday.endDate.getDate() + 1
+                ).getTime() - 1;
+            }
+
             function createHolidayCard(holiday) {
                 const card = document.createElement('article');
                 card.className = 'holiday-card';
-                card.dataset.holidayDate = holiday.date.getTime();
+                card.dataset.holidayStart = holiday.startDate.getTime();
+                card.dataset.holidayEnd = getHolidayEndTime(holiday);
+                card.dataset.holidayPeriod = String(holiday.startDate.getTime() !== holiday.endDate.getTime());
                 const icon = document.createElement('i');
                 icon.className = `fa-solid ${holidayIcons[holiday.name] || 'fa-star'}`;
                 icon.setAttribute('aria-hidden', 'true');
                 const heading = document.createElement('h3');
                 heading.textContent = holiday.name;
                 const date = document.createElement('p');
-                date.textContent = holidayDateFormatter.format(holiday.date);
+                date.textContent = formatHolidayRange(holiday);
                 const countdown = document.createElement('strong');
                 countdown.className = 'holiday-card-countdown';
                 card.append(icon, heading, date, countdown);
@@ -401,38 +465,38 @@
                 const currentYear = now.getFullYear();
                 if (currentYear !== holidayYear) {
                     holidayYear = currentYear;
-                    holidayCandidates = [
-                        ...getHolidays(holidayYear),
-                        ...getHolidays(holidayYear + 1)
-                    ].sort((a, b) => a.date - b.date);
+                    holidayCandidates = buildHolidayCandidates(holidayYear);
                 }
 
-                const upcoming = holidayCandidates.filter(holiday => holiday.date.getTime() > now.getTime());
-                const firstHoliday = upcoming[0];
-                const firstHolidayKey = firstHoliday ? firstHoliday.date.getTime() : null;
-                if (firstHolidayKey === renderedHolidayKey) return;
-                renderedHolidayKey = firstHolidayKey;
+                const upcoming = holidayCandidates.filter(holiday => getHolidayEndTime(holiday) >= now.getTime());
+                const nextHoliday = upcoming.find(holiday => holiday.startDate.getTime() > now.getTime());
+                const holidayKey = `${upcoming.map(holiday => holiday.startDate.getTime()).join(',')}:${nextHoliday?.startDate.getTime() || ''}`;
+                if (holidayKey === renderedHolidayKey) return;
+                renderedHolidayKey = holidayKey;
 
                 holidayCards.replaceChildren(...upcoming.slice(0, 3).map(createHolidayCard));
                 holidayTableBody.replaceChildren(...upcoming.slice(0, 12).map(holiday => {
                     const row = document.createElement('tr');
-                    row.dataset.holidayDate = holiday.date.getTime();
+                    row.dataset.holidayStart = holiday.startDate.getTime();
+                    row.dataset.holidayEnd = getHolidayEndTime(holiday);
+                    row.dataset.holidayPeriod = String(holiday.startDate.getTime() !== holiday.endDate.getTime());
                     const name = document.createElement('td');
                     name.textContent = holiday.name;
                     const date = document.createElement('td');
-                    date.textContent = holidayDateFormatter.format(holiday.date);
+                    date.textContent = formatHolidayRange(holiday);
                     const remaining = document.createElement('td');
                     remaining.className = 'holiday-table-countdown';
                     row.append(name, date, remaining);
                     return row;
                 }));
 
-                if (firstHoliday) {
-                    document.getElementById('nextFestivityName').textContent = firstHoliday.name;
-                    document.getElementById('nextFestivityDate').textContent = holidayDateFormatter.format(firstHoliday.date);
-                    document.getElementById('nextHolidayIcon').className = `fa-solid ${holidayIcons[firstHoliday.name] || 'fa-star'}`;
+                if (nextHoliday) {
+                    document.getElementById('nextFestivityName').textContent = nextHoliday.name;
+                    document.getElementById('nextFestivityDate').textContent = formatHolidayRange(nextHoliday);
+                    document.getElementById('nextHolidayIcon').className = `fa-solid ${holidayIcons[nextHoliday.name] || 'fa-star'}`;
                 } else {
-                    document.getElementById('nextFestivityName').textContent = 'Festività non disponibili';
+                    document.getElementById('nextFestivityName').textContent = 'Nessuna altra pausa in programma';
+                    document.getElementById('nextFestivityDate').textContent = '';
                 }
             }
 
@@ -451,25 +515,43 @@
                 const nowDate = new Date();
                 const now = nowDate.getTime();
                 renderUpcomingHolidays(nowDate);
-                const next = holidayCandidates.find(holiday => holiday.date.getTime() > now);
+                const next = holidayCandidates.find(holiday => holiday.startDate.getTime() > now);
                 if (next) {
-                    const remaining = formatRemaining(next.date.getTime(), now);
+                    const remaining = formatRemaining(next.startDate.getTime(), now);
                     document.getElementById('holidayDays').textContent = String(remaining.days).padStart(2, '0');
                     document.getElementById('holidayHours').textContent = String(remaining.hours).padStart(2, '0');
                     document.getElementById('holidayMinutes').textContent = String(remaining.minutes).padStart(2, '0');
                     document.getElementById('holidaySeconds').textContent = String(remaining.seconds).padStart(2, '0');
+                } else {
+                    document.getElementById('holidayDays').textContent = '00';
+                    document.getElementById('holidayHours').textContent = '00';
+                    document.getElementById('holidayMinutes').textContent = '00';
+                    document.getElementById('holidaySeconds').textContent = '00';
                 }
 
                 holidayCards.querySelectorAll('.holiday-card').forEach(card => {
-                    const remaining = formatRemaining(Number(card.dataset.holidayDate), now);
-                    card.querySelector('.holiday-card-countdown').textContent =
-                        remaining.days === 0 ? 'È oggi!' : `Tra ${remaining.days} ${remaining.days === 1 ? 'giorno' : 'giorni'}`;
+                    const start = Number(card.dataset.holidayStart);
+                    const end = Number(card.dataset.holidayEnd);
+                    const countdown = card.querySelector('.holiday-card-countdown');
+                    if (start <= now && end >= now) {
+                        countdown.textContent = card.dataset.holidayPeriod === 'true' ? 'Vacanza in corso' : 'È oggi!';
+                    } else {
+                        const daysUntilStart = Math.ceil((start - now) / 86400000);
+                        countdown.textContent = `Tra ${daysUntilStart} ${daysUntilStart === 1 ? 'giorno' : 'giorni'}`;
+                    }
                 });
 
                 holidayTableBody.querySelectorAll('tr').forEach(row => {
-                    const remaining = formatRemaining(Number(row.dataset.holidayDate), now);
-                    row.querySelector('.holiday-table-countdown').textContent =
-                        `${remaining.days} gg, ${String(remaining.hours).padStart(2, '0')}h, ${String(remaining.minutes).padStart(2, '0')}m, ${String(remaining.seconds).padStart(2, '0')}s`;
+                    const start = Number(row.dataset.holidayStart);
+                    const end = Number(row.dataset.holidayEnd);
+                    const countdown = row.querySelector('.holiday-table-countdown');
+                    if (start <= now && end >= now) {
+                        countdown.textContent = row.dataset.holidayPeriod === 'true' ? 'In corso' : 'È oggi';
+                    } else {
+                        const remaining = formatRemaining(start, now);
+                        countdown.textContent =
+                            `${remaining.days} gg, ${String(remaining.hours).padStart(2, '0')}h, ${String(remaining.minutes).padStart(2, '0')}m, ${String(remaining.seconds).padStart(2, '0')}s`;
+                    }
                 });
             }
 
